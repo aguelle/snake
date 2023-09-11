@@ -15,9 +15,15 @@ let snake = document.getElementById('snake');
 // target canvas element in html and make a 2d context in it
 let ctx = document.getElementById('canvas').getContext('2d');
 
+// choose which snake
+let snakeUp = document.getElementById('snakeUp');
+let snakeRight = document.getElementById('snakeRight');
+let snakeDown = document.getElementById('snakeDown');
+let snakeLeft = document.getElementById('snakeLeft');
+
 // to draw the snake
-function drawSnake() {
-    ctx.drawImage(snake, positionLeft, positionTop, 40, 40);
+function drawSnake(whichSnake) {
+    ctx.drawImage(whichSnake, positionLeft, positionTop, 40, 40);
 }
 
 // to clear the snake
@@ -26,7 +32,7 @@ function clearSnake() {
 }
 
 // call function to start with a snake already visible
-drawSnake();
+drawSnake(snakeUp);
 
 // main engine, function to move snake
 let lastMove;
@@ -34,11 +40,11 @@ let lastMove;
 function moveSnake(event) {
     switch (event.key) {
         case 'ArrowDown':
-            if (lastMove == 'ArrowUp') break; 
+            if (lastMove == 'ArrowUp') break;
             clearSnake();
             positionTop += 50;
             if (positionTop == 500) positionTop = 0;
-            drawSnake();
+            drawSnake(snakeDown);
             lastMove = event.key;
             break;
         case "ArrowUp":
@@ -46,7 +52,7 @@ function moveSnake(event) {
             clearSnake();
             positionTop -= 50;
             if (positionTop == -50) positionTop = 450;
-            drawSnake();
+            drawSnake(snakeUp);
             lastMove = event.key;
             break;
         case "ArrowLeft":
@@ -54,7 +60,7 @@ function moveSnake(event) {
             clearSnake();
             positionLeft -= 50;
             if (positionLeft == -50) positionLeft = 450;
-            drawSnake();
+            drawSnake(snakeLeft);
             lastMove = event.key;
             break;
         case "ArrowRight":
@@ -62,7 +68,7 @@ function moveSnake(event) {
             clearSnake();
             positionLeft += 50;
             if (positionLeft == 500) positionLeft = 0;
-            drawSnake();
+            drawSnake(snakeRight);
             lastMove = event.key;
             break;
         default:
