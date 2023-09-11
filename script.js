@@ -5,10 +5,15 @@ window.addEventListener('keydown', moveSnake);
 let positionTop = 0;
 let positionLeft = 0;
 
+// to get canvas dimension
+let canvasHeight = document.getElementById('canvas').getAttribute('height');
+let canvasWidth = document.getElementById('canvas').getAttribute('width');
+
 // target element we want to move :
 let snake = document.getElementById('snake');
-let canvas = document.getElementById('canvas');
-let ctx = canvas.getContext('2d');
+
+// target canvas element in html and make a 2d context in it
+let ctx = document.getElementById('canvas').getContext('2d');
 
 // to draw the snake
 function drawSnake() {
@@ -23,17 +28,16 @@ function clearSnake() {
 // call function to start with a snake already visible
 drawSnake();
 
-// console.log to see movements, for futures functions
+// main engine, function to move snake
 let lastMove;
 
 function moveSnake(event) {
-    console.log(lastMove)
     switch (event.key) {
         case 'ArrowDown':
             if (lastMove == 'ArrowUp') break; 
             clearSnake();
             positionTop += 50;
-            console.log('ArrowDown' + ` Y : ${positionTop} - X : ${positionLeft}`);
+            if (positionTop == 500) positionTop = 0;
             drawSnake();
             lastMove = event.key;
             break;
@@ -41,7 +45,7 @@ function moveSnake(event) {
             if (lastMove == 'ArrowDown') break;
             clearSnake();
             positionTop -= 50;
-            console.log('ArrowUp' + ` Y : ${positionTop} - X : ${positionLeft}`);
+            if (positionTop == -50) positionTop = 450;
             drawSnake();
             lastMove = event.key;
             break;
@@ -49,7 +53,7 @@ function moveSnake(event) {
             if (lastMove == 'ArrowRight') break;
             clearSnake();
             positionLeft -= 50;
-            console.log('ArrowLeft' + ` Y : ${positionTop} - X : ${positionLeft}`);
+            if (positionLeft == -50) positionLeft = 450;
             drawSnake();
             lastMove = event.key;
             break;
@@ -57,7 +61,7 @@ function moveSnake(event) {
             if (lastMove == 'ArrowLeft') break;
             clearSnake();
             positionLeft += 50;
-            console.log('ArrowRight' + ` Y : ${positionTop} - X : ${positionLeft}`);
+            if (positionLeft == 500) positionLeft = 0;
             drawSnake();
             lastMove = event.key;
             break;
