@@ -1,21 +1,18 @@
-// to listen keyboard on the window
+// to listen keyboard on the window, and if keyboard is pressed we call moveSnake function
 window.addEventListener('keydown', moveSnake);
 
-// to record snake position
+// to record snake position, we have to know where he is everytime
 let positionTop = 0;
 let positionLeft = 0;
 
-// to get canvas dimension
+// to get canvas dimension, this is the snake's playground
 let canvasHeight = document.getElementById('canvas').getAttribute('height');
 let canvasWidth = document.getElementById('canvas').getAttribute('width');
 
-// target element we want to move :
-let snake = document.getElementById('snake');
-
-// target canvas element in html and make a 2d context in it
+// target canvas element in html and make a 2d context in it, that's how canvas works
 let ctx = document.getElementById('canvas').getContext('2d');
 
-// choose which snake
+// target and choose which snake, a little hack to have a good snake's boy who move his head
 let snakeUp = document.getElementById('snakeUp');
 let snakeRight = document.getElementById('snakeRight');
 let snakeDown = document.getElementById('snakeDown');
@@ -31,20 +28,28 @@ function clearSnake() {
     ctx.clearRect(positionLeft, positionTop, 40, 40);
 }
 
-// call function to start with a snake already visible
-drawSnake(snakeUp);
+// call function to start with a snake already visible, if not we have nothing on the canvas at the start
+drawSnake(snakeDown);
 
-// main engine, function to move snake
+// main engine, function to move snake. That's THE function of the game for the moment
 let lastMove;
 
 function moveSnake(event) {
+    // listen to keyboard event
     switch (event.key) {
+        // in case of arrowdown
         case 'ArrowDown':
+            // if lastmove was arrowup, don't do anything (to prevent snake to go back)
             if (lastMove == 'ArrowUp') break;
+            // erase actual snake (that's the method with canvas, we clear all and we draw with all changes after)
             clearSnake();
+            // to backup snake's move and to know where he is
             positionTop += 50;
+            // if snake arrives to border we send him to the opposite side
             if (positionTop == 500) positionTop = 0;
+            // draw actual snake with changes
             drawSnake(snakeDown);
+            // record last move to prevent snake to go back on the next move
             lastMove = event.key;
             break;
         case "ArrowUp":
