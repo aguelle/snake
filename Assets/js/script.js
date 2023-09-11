@@ -29,7 +29,7 @@ function clearSnake() {
 }
 
 // call function to start with a snake already visible, if not we have nothing on the canvas at the start
-drawSnake(snakeDown);
+drawSnake(snakeUp);
 
 // main engine, function to move snake. That's THE function of the game for the moment
 let lastMove;
