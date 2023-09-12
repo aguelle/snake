@@ -13,13 +13,13 @@ body {
     font-family: 'modak';
     background-image: url('/Assets/img/background.jpg');
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: auto;
 }
 
 #canvas {
     width: 90%;
     display: flex;
-    margin: auto;
+    margin: 70px auto;
     background-color: white;
 }
 
@@ -31,21 +31,90 @@ h1 {
 
 .main-logo {
     display: flex;
-    margin: 150px auto 0px auto;
+    margin: 150px auto 50px auto;
     width: 40%;
 }
 
-.btn {
+.btn-start {
     display: flex;
-    margin: 150px auto;
-    font-size: 4rem;
+    margin: 80px auto;
+    font-size: 3rem;
     font-weight: 600;
     background-color: black;
     color: white;
-    padding: 30px 60px;
+    padding: 25px 50px;
     border-radius: 100px;
 }
 
+.btn-back {
+    margin: 50px 40px;
+    display: flex;
+    font-weight: 600;
+    padding: 15px 30px;
+    border-radius: 100px;
+    background-color: black;
+}
+
+.start {
+    text-decoration: none;
+    color: white;
+}
+
+.back {
+    color: white;
+    text-decoration: none;
+    font-size: 1.5rem;
+}
+
 .arrow {
-    width: 20%;
+    width: 25%;
+}
+
+.game-logo {
+    display: flex;
+    width: 25%;
+}
+
+.arrowUp,
+.arrowDown {
+    display: flex;
+    margin: auto;
+}
+
+.command-center {
+    display: flex;
+    justify-content: center;
+}
+
+.arrowUp {
+    margin-top: 50px;
+}
+
+@media all and (min-width: 544px) {
+
+    body {
+        background-size: cover;
+    }
+
+    .main-logo {
+        width: 20%
+    }
+
+    #canvas {
+        width: 50%;
+        margin: 70px;
+    }
+
+    .command {
+        width: 40%;
+        position: absolute;
+        margin-top: -60%;
+        margin-left: 60%;
+    }
+
+    .btn-back {
+        position: absolute;
+        margin-top: -18%;
+        margin-left: 75%;
+    }
 }
