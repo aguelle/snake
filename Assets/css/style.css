@@ -19,7 +19,7 @@ body {
 #canvas {
     width: 90%;
     display: flex;
-    margin: auto;
+    margin: 50px auto;
     background-color: white;
 }
 
@@ -49,3 +49,24 @@ h1 {
 .arrow {
     width: 20%;
 }
+
+.game-logo {
+    display: flex;
+    width: 20%;
+}
+
+.arrowUp,
+.arrowDown {
+    display: flex;
+    margin: auto;
+}
+
+.command-center {
+    display: flex;
+    justify-content: center;
+}
+
+.arrowUp {
+    margin-top: 50px;
+}
+

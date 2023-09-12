@@ -1,5 +1,5 @@
 // to listen keyboard on the window, and if keyboard is pressed we call moveSnake function
-window.addEventListener('keydown', moveSnake);
+window.addEventListener('keydown', moveSnakeWithKeyboard);
 
 // to record snake position, we have to know where he is everytime
 let positionTop = 0;
@@ -34,57 +34,53 @@ drawSnake(snakeUp);
 // main engine, function to move snake. That's THE function of the game for the moment
 let lastMove;
 
-function moveSnake(event) {
+function moveSnakeWithKeyboard(event) {
     // listen to keyboard event
     switch (event.key) {
         // in case of arrowdown
         case 'ArrowDown':
             // if lastmove was arrowup, don't do anything (to prevent snake to go back)
-            if (lastMove == 'ArrowUp') break;
+            if (lastMove === 'ArrowUp') break;
             // erase actual snake (that's the method with canvas, we clear all and we draw with all changes after)
             clearSnake();
             drawGrid(10)
             // to backup snake's move and to know where he is
             positionTop += 50;
             // if snake arrives to border we send him to the opposite side
-            if (positionTop == 500) positionTop = 0;
+            if (positionTop === 500) positionTop = 0;
             // draw actual snake with changes
             drawSnake(snakeDown);
             // record last move to prevent snake to go back on the next move
             lastMove = event.key;
             break;
         case "ArrowUp":
-            if (lastMove == 'ArrowDown') break;
+            if (lastMove === 'ArrowDown') break;
             clearSnake();
             drawGrid(10)
             positionTop -= 50;
-            if (positionTop == -50) positionTop = 450;
+            if (positionTop === -50) positionTop = 450;
             drawSnake(snakeUp);
             lastMove = event.key;
             break;
         case "ArrowLeft":
-            if (lastMove == 'ArrowRight') break;
+            if (lastMove === 'ArrowRight') break;
             clearSnake();
             drawGrid(10)
             positionLeft -= 50;
-            if (positionLeft == -50) positionLeft = 450;
+            if (positionLeft === -50) positionLeft = 450;
             drawSnake(snakeLeft);
             lastMove = event.key;
             break;
         case "ArrowRight":
-            if (lastMove == 'ArrowLeft') break;
+            if (lastMove === 'ArrowLeft') break;
             clearSnake();
             drawGrid(10)
             positionLeft += 50;
-            if (positionLeft == 500) positionLeft = 0;
+            if (positionLeft === 500) positionLeft = 0;
             drawSnake(snakeRight);
             lastMove = event.key;
             break;
-        default:
-            console.log(event.key, event.keyCode);
-            return;
     }
-    event.preventDefault();
 }
 
 // function to draw the grid in canvasHeight, with length in parameter
@@ -103,3 +99,47 @@ function drawGrid(gridLength) {
 
 // to draw a grid with 10 square length
 drawGrid(10);
+
+document.body.addEventListener('click', moveSnakeWithMouse)
+    // if (event.target.classList.contains('arrow')) console.log(event)
+
+function moveSnakeWithMouse(event) {
+    switch (event.target.getAttribute('class')) {
+        case 'arrow arrowDown':
+            if (lastMove === 'arrow arrowUp') break;
+            clearSnake();
+            drawGrid(10)
+            positionTop += 50;
+            if (positionTop === 500) positionTop = 0;
+            drawSnake(snakeDown);
+            lastMove = event.key;
+            break;
+        case "arrow arrowUp":
+            if (lastMove === 'arrow arrowDown') break;
+            clearSnake();
+            drawGrid(10)
+            positionTop -= 50;
+            if (positionTop === -50) positionTop = 450;
+            drawSnake(snakeUp);
+            lastMove = event.key;
+            break;
+        case "arrow arrowLeft":
+            if (lastMove === 'arrow arrowRight') break;
+            clearSnake();
+            drawGrid(10)
+            positionLeft -= 50;
+            if (positionLeft === -50) positionLeft = 450;
+            drawSnake(snakeLeft);
+            lastMove = event.key;
+            break;
+        case "arrow arrowRight":
+            if (lastMove === 'arrow arrowLeft') break;
+            clearSnake();
+            drawGrid(10)
+            positionLeft += 50;
+            if (positionLeft === 500) positionLeft = 0;
+            drawSnake(snakeRight);
+            lastMove = event.key;
+            break;
+    }
+}
