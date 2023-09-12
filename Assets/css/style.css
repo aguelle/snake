@@ -1,7 +1,51 @@
-.snake {
+@font-face {
+    font-family: 'modak';
+    src: url('/Assets/fonts/Modak-Regular.ttf');
+}
+
+.snake,
+.apple {
     display: none;
 }
 
+body {
+    width: 100%;
+    font-family: 'modak';
+    background-image: url('/Assets/img/background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 #canvas {
-    background-color: grey;
+    width: 90%;
+    display: flex;
+    margin: auto;
+    background-color: white;
+}
+
+h1 {
+    font-size: 6rem;
+    text-align: center;
+    margin-top: 0px;
+}
+
+.main-logo {
+    display: flex;
+    margin: 150px auto 0px auto;
+    width: 40%;
+}
+
+.btn {
+    display: flex;
+    margin: 150px auto;
+    font-size: 4rem;
+    font-weight: 600;
+    background-color: black;
+    color: white;
+    padding: 30px 60px;
+    border-radius: 100px;
+}
+
+.arrow {
+    width: 20%;
 }
