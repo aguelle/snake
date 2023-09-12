@@ -90,3 +90,31 @@ h1 {
     margin-top: 50px;
 }
 
+@media all and (min-width: 544px) {
+
+    body {
+        background-size: cover;
+    }
+
+    .main-logo {
+        width: 20%
+    }
+
+    #canvas {
+        width: 50%;
+        margin: 70px;
+    }
+
+    .command {
+        width: 40%;
+        position: absolute;
+        margin-top: -60%;
+        margin-left: 60%;
+    }
+
+    .btn-back {
+        position: absolute;
+        margin-top: -18%;
+        margin-left: 75%;
+    }
+}
