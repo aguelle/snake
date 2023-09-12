@@ -66,7 +66,6 @@ drawSnake();
 
 // but sometimes we need to clear this fellow englis-- uh snake, sorry
 function clearSnake() {
-    ctx.clearRect(positionLeft, positionTop, 50, 50);
     snake.forEach(clearSnakePart);
 }
 
@@ -74,9 +73,7 @@ function clearSnakePart(snakePart) {
     ctx.clearRect(snakePart.x, snakePart.y, 50, 50);
 }
 
-// in this game, there is also an apple (not the computer, please keep concentrate)
-let positionTop = 0;
-let positionLeft = 0;
+// in this game, there is also an apple (not the computer, please keep focus)
 let apple = document.getElementById("apple");
 let positionAppleTop = getRandom(0, 10) * 50;
 let positionAppleLeft = getRandom(0, 10) * 50; 
@@ -86,15 +83,13 @@ function drawApple(apple) {
     ctx.drawImage(apple, positionAppleLeft, positionAppleTop, 50, 50);
 }
 
-
-
 // our snake loves to eat apple
 function clearApple() {
     ctx.clearRect(positionAppleLeft, positionAppleTop, 50, 50);
   }
 
 function eatApple() {
-    if (positionTop == positionAppleTop && positionLeft == positionAppleLeft) {
+    if (snake[0].y == positionAppleTop && snake[0].x == positionAppleLeft) {
         clearApple();
     }
 }
