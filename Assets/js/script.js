@@ -39,7 +39,7 @@ function moveSnakeWithKeyboard(event) {
     switch (event.key) {
         // in case of arrowdown
         case 'ArrowDown':
-            // if lastmove was arrowup, don't do anything (to prevent snake to go back)
+            // if lastMove was arrowup, don't do anything (to prevent snake to go back)
             if (lastMove === 'ArrowUp') break;
             // erase actual snake (that's the method with canvas, we clear all and we draw with all changes after)
             clearSnake();
@@ -100,9 +100,10 @@ function drawGrid(gridLength) {
 // to draw a grid with 10 square length
 drawGrid(10);
 
+// to listen mouse and use arrows
 document.body.addEventListener('click', moveSnakeWithMouse)
-    // if (event.target.classList.contains('arrow')) console.log(event)
 
+// function to use arrows
 function moveSnakeWithMouse(event) {
     switch (event.target.getAttribute('class')) {
         case 'arrow arrowDown':
@@ -112,7 +113,7 @@ function moveSnakeWithMouse(event) {
             positionTop += 50;
             if (positionTop === 500) positionTop = 0;
             drawSnake(snakeDown);
-            lastMove = event.key;
+            lastMove = event.target.getAttribute('class');
             break;
         case "arrow arrowUp":
             if (lastMove === 'arrow arrowDown') break;
@@ -121,7 +122,7 @@ function moveSnakeWithMouse(event) {
             positionTop -= 50;
             if (positionTop === -50) positionTop = 450;
             drawSnake(snakeUp);
-            lastMove = event.key;
+            lastMove = event.target.getAttribute('class');
             break;
         case "arrow arrowLeft":
             if (lastMove === 'arrow arrowRight') break;
@@ -130,7 +131,7 @@ function moveSnakeWithMouse(event) {
             positionLeft -= 50;
             if (positionLeft === -50) positionLeft = 450;
             drawSnake(snakeLeft);
-            lastMove = event.key;
+            lastMove = event.target.getAttribute('class');
             break;
         case "arrow arrowRight":
             if (lastMove === 'arrow arrowLeft') break;
@@ -139,7 +140,7 @@ function moveSnakeWithMouse(event) {
             positionLeft += 50;
             if (positionLeft === 500) positionLeft = 0;
             drawSnake(snakeRight);
-            lastMove = event.key;
+            lastMove = event.target.getAttribute('class');
             break;
     }
 }
