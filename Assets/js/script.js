@@ -20,12 +20,12 @@ let snakeLeft = document.getElementById('snakeLeft');
 
 // to draw the snake
 function drawSnake(whichSnake) {
-    ctx.drawImage(whichSnake, positionLeft, positionTop, 40, 40);
+    ctx.drawImage(whichSnake, positionLeft, positionTop, 50, 50);
 }
 
 // to clear the snake
 function clearSnake() {
-    ctx.clearRect(positionLeft, positionTop, 40, 40);
+    ctx.clearRect(positionLeft, positionTop, 50, 50);
 }
 
 // call function to start with a snake already visible, if not we have nothing on the canvas at the start
@@ -43,6 +43,7 @@ function moveSnake(event) {
             if (lastMove == 'ArrowUp') break;
             // erase actual snake (that's the method with canvas, we clear all and we draw with all changes after)
             clearSnake();
+            drawGrid(10)
             // to backup snake's move and to know where he is
             positionTop += 50;
             // if snake arrives to border we send him to the opposite side
@@ -55,6 +56,7 @@ function moveSnake(event) {
         case "ArrowUp":
             if (lastMove == 'ArrowDown') break;
             clearSnake();
+            drawGrid(10)
             positionTop -= 50;
             if (positionTop == -50) positionTop = 450;
             drawSnake(snakeUp);
@@ -63,6 +65,7 @@ function moveSnake(event) {
         case "ArrowLeft":
             if (lastMove == 'ArrowRight') break;
             clearSnake();
+            drawGrid(10)
             positionLeft -= 50;
             if (positionLeft == -50) positionLeft = 450;
             drawSnake(snakeLeft);
@@ -71,6 +74,7 @@ function moveSnake(event) {
         case "ArrowRight":
             if (lastMove == 'ArrowLeft') break;
             clearSnake();
+            drawGrid(10)
             positionLeft += 50;
             if (positionLeft == 500) positionLeft = 0;
             drawSnake(snakeRight);
@@ -83,3 +87,19 @@ function moveSnake(event) {
     event.preventDefault();
 }
 
+// function to draw the grid in canvasHeight, with length in parameter
+function drawGrid(gridLength) {
+    let positionX = 0;
+    let positionY = 0;
+    for (let y = 0; y < gridLength; y++) {
+        for (let x = 0; x < gridLength; x++) {
+            ctx.strokeRect(positionX, positionY, 50, 50);
+            positionX += 50;
+        }
+        positionX = 0;
+        positionY += 50;
+    }
+}
+
+// to draw a grid with 10 square length
+drawGrid(10);
