@@ -1,5 +1,5 @@
 // to listen keyboard on the window, and if keyboard is pressed we call moveSnake function
-window.addEventListener('keydown', main);
+window.addEventListener('keydown', moveSnakeWithKeyboard);
 
 // to record snake position, we have to know where he is everytime
 let snake = [
@@ -16,7 +16,7 @@ let canvasWidth = document.getElementById('canvas').getAttribute('width');
 let ctx = document.getElementById('canvas').getContext('2d');
 
 // target and choose which snake, a little hack to have a good snake's boy who move his head
-// let snakeUp = document.getElementById('snakeUp');
+let snakeUp = document.getElementById('snakeUp');
 // let snakeRight = document.getElementById('snakeRight');
 // let snakeDown = document.getElementById('snakeDown');
 // let snakeLeft = document.getElementById('snakeLeft');
@@ -31,8 +31,7 @@ function drawSnake() {
 }
 
 function drawSnakePart(snakePart) {
-    ctx.fillStyle = 'lightgreen';
-    ctx.fillRect(snakePart.x, snakePart.y, 50, 50);
+    ctx.drawImage(snakeUp, snakePart.x, snakePart.y, 50, 50);
 }
 
 // to clear the snake
@@ -50,13 +49,13 @@ let lastMove;
 let dx = 0;
 let dy = 0;
 
-function moveSnake() {
+function keepSnakePosition() {
     const head = {x: snake[0].x + dx, y: snake[0].y + dy};
     snake.unshift(head);
     snake.pop()
 }
 
-function main(event) {
+function moveSnakeWithKeyboard(event) {
     switch (event.key) {
         case 'ArrowDown':
             if (lastMove === 'ArrowUp') break;
@@ -64,7 +63,7 @@ function main(event) {
             drawGrid(10);
             dy = +50;
             dx = 0;
-            moveSnake();
+            keepSnakePosition();
             if (snake[0].y === 500) snake[0].y = 0;
             drawSnake();
             lastMove = event.key;
@@ -75,7 +74,7 @@ function main(event) {
             drawGrid(10);
             dy = -50;
             dx = 0;
-            moveSnake();
+            keepSnakePosition();
             if (snake[0].y === -50) snake[0].y = 450;
             drawSnake();
             lastMove = event.key;
@@ -86,7 +85,7 @@ function main(event) {
             drawGrid(10);
             dx = -50;
             dy = 0;
-            moveSnake();
+            keepSnakePosition();
             if (snake[0].x === -50) snake[0].x = 450;
             drawSnake();
             lastMove = event.key;
@@ -97,7 +96,7 @@ function main(event) {
             drawGrid(10);
             dx = 50;
             dy = 0;
-            moveSnake();
+            keepSnakePosition();
             if (snake[0].x === 500) snake[0].x = 0;
             drawSnake();
             lastMove = event.key;
@@ -134,7 +133,7 @@ function moveSnakeWithMouse(event) {
             drawGrid(10);
             dy = +50;
             dx = 0;
-            moveSnake();
+            keepSnakePosition();
             if (snake[0].y === 500) snake[0].y = 0;
             drawSnake();
             lastMove = event.target.getAttribute('class');
@@ -145,7 +144,7 @@ function moveSnakeWithMouse(event) {
             drawGrid(10)
             dy = -50;
             dx = 0;
-            moveSnake();
+            keepSnakePosition();
             if (snake[0].y === -50) snake[0].y = 450;
             drawSnake();
             lastMove = event.target.getAttribute('class');
@@ -156,7 +155,7 @@ function moveSnakeWithMouse(event) {
             drawGrid(10)
             dx = -50;
             dy = 0;
-            moveSnake();
+            keepSnakePosition();
             if (snake[0].x === -50) snake[0].x = 450;
             drawSnake();
             lastMove = event.target.getAttribute('class');
@@ -167,7 +166,7 @@ function moveSnakeWithMouse(event) {
             drawGrid(10)
             dx = 50;
             dy = 0;
-            moveSnake();
+            keepSnakePosition();
             if (snake[0].x === 500) snake[0].x = 0;
             drawSnake();
             lastMove = event.target.getAttribute('class');
