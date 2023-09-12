@@ -52,7 +52,7 @@ let snakeRight = document.getElementById("snakeRight");
 let snakeDown = document.getElementById("snakeDown");
 let snakeLeft = document.getElementById("snakeLeft");
 
-// to see it, we have to draw the snake (interesting, hu)
+// to see it, we have to draw it (interesting, hu)
 function drawSnake() {
     snake.forEach(drawSnakePart);
 }
@@ -61,10 +61,10 @@ function drawSnakePart(snakePart) {
     ctx.drawImage(snakeUp, snakePart.x, snakePart.y, 50, 50);
 }
 
-// here he comes for good times
+// he has a feeling, that's tonight gonna be a good night
 drawSnake();
 
-// but sometimes we need to clear this fellow snake
+// but sometimes we need to clear this fellow englis-- uh snake, sorry
 function clearSnake() {
     ctx.clearRect(positionLeft, positionTop, 50, 50);
     snake.forEach(clearSnakePart);
@@ -74,7 +74,7 @@ function clearSnakePart(snakePart) {
     ctx.clearRect(snakePart.x, snakePart.y, 50, 50);
 }
 
-// in this game, there is also an apple
+// in this game, there is also an apple (not the computer, please keep concentrate)
 let positionTop = 0;
 let positionLeft = 0;
 let apple = document.getElementById("apple");
@@ -86,7 +86,7 @@ function drawApple(apple) {
     ctx.drawImage(apple, positionAppleLeft, positionAppleTop, 50, 50);
 }
 
-drawApple(apple);
+
 
 // our snake loves to eat apple
 function clearApple() {
@@ -108,6 +108,7 @@ function getRandom(min, max) {
 
 // moving this ####### snake with keyboard
 function moveSnakeWithKeyboard(event) {
+    drawApple(apple);
     switch (event.key) {
         case 'ArrowDown':
             if (lastMove === 'ArrowUp') break;
@@ -158,6 +159,7 @@ function moveSnakeWithKeyboard(event) {
 
 // moving it with mouse or fingers
 function moveSnakeWithMouse(event) {
+    drawApple(apple);
     switch (event.target.getAttribute('class')) {
         case 'arrow arrowDown':
             if (lastMove === 'arrow arrowUp') break;
