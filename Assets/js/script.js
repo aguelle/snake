@@ -74,6 +74,7 @@ function main(event) {
         case 'ArrowDown':
             if (lastMove === 'ArrowUp') break;
             clearSnake();
+            drawGrid(10);
             dy = +50;
             dx = 0;
             moveSnake();
@@ -84,6 +85,7 @@ function main(event) {
         case 'ArrowUp':
             if (lastMove === 'ArrowDown') break;
             clearSnake();
+            drawGrid(10);
             dy = -50;
             dx = 0;
             moveSnake();
@@ -94,6 +96,7 @@ function main(event) {
         case 'ArrowLeft':
             if (lastMove === 'ArrowRight') break;
             clearSnake();
+            drawGrid(10);
             dx = -50;
             dy = 0;
             moveSnake();
@@ -104,6 +107,7 @@ function main(event) {
         case 'ArrowRight':
             if (lastMove === 'ArrowLeft') break;
             clearSnake();
+            drawGrid(10);
             dx = 50;
             dy = 0;
             moveSnake();
