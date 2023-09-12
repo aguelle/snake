@@ -1,9 +1,14 @@
 // to listen keyboard on the window, and if keyboard is pressed we call moveSnake function
-window.addEventListener('keydown', moveSnake);
+window.addEventListener('keydown', main);
 
 // to record snake position, we have to know where he is everytime
-let positionTop = 0;
-let positionLeft = 0;
+let snake = [
+    {x: 250, y: 250},
+    {x: 250, y: 200},
+    {x: 250, y: 150}
+];
+// let positionTop = 0;
+// let positionLeft = 0;
 
 // to get canvas dimension, this is the snake's playground
 let canvasHeight = document.getElementById('canvas').getAttribute('height');
@@ -19,22 +24,113 @@ let snakeDown = document.getElementById('snakeDown');
 let snakeLeft = document.getElementById('snakeLeft');
 
 // to draw the snake
-function drawSnake(whichSnake) {
-    ctx.drawImage(whichSnake, positionLeft, positionTop, 40, 40);
-}
+// function drawSnake(whichSnake) {
+//     snake.forEach(ctx.drawImage(whichSnake, positionLeft, positionTop, 40, 40));
+// }
 
 // to clear the snake
 function clearSnake() {
-    ctx.clearRect(positionLeft, positionTop, 40, 40);
+    snake.forEach(clearSnakePart);
 }
 
+function clearSnakePart(snakePart) {
+    ctx.clearRect(snakePart.x, snakePart.y, 50, 50);
+}
+
+// function clearSnake() {
+//     ctx.clearRect(positionLeft, positionTop, 50, 50);
+// }
+
 // call function to start with a snake already visible, if not we have nothing on the canvas at the start
-drawSnake(snakeUp);
+function drawSnake() {
+    snake.forEach(drawSnakePart);
+}
+
+function drawSnakePart(snakePart) {
+    ctx.fillStyle = 'lightgreen';
+    //ctx.strokestyle = 'darkgreen';
+    ctx.fillRect(snakePart.x, snakePart.y, 50, 50);
+    //ctx.strokeRect(snakePart.x, snakePart.y, 50, 50);
+}
+drawSnake();
+//drawSnake();
+//drawSnake(snakeUp);
 
 // main engine, function to move snake. That's THE function of the game for the moment
 let lastMove;
 
-function moveSnake(event) {
+let dx = 0;
+let dy = 0;
+
+function moveSnake() {
+    const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+    snake.unshift(head);
+    snake.pop()
+}
+
+/*main();
+
+function main() {
+    setTimeout(function onTick() {
+    clearSnake();
+    moveSnake2();
+    drawSnake();
+
+    main();
+}, 100)
+}*/
+
+// const goingUp = dy === -50;
+// const goingDown = dy === 50;
+// const goingRight = dx === 50;
+// const goingLeft = dx === -50;
+
+function main(event) {
+    switch (event.key) {
+        case 'ArrowDown':
+            if (lastMove === 'ArrowUp') break;
+            clearSnake();
+            dy = +50;
+            dx = 0;
+            moveSnake();
+            if (snake[0].y > 500) snake[0].y = 0;
+            drawSnake();
+            lastMove = event.key;
+            break;
+        case 'ArrowUp':
+            if (lastMove === 'ArrowDown') break;
+            clearSnake();
+            dy = -50;
+            dx = 0;
+            moveSnake();
+            if (snake[0].y < 0) snake[0].y = 500;
+            drawSnake();
+            lastMove = event.key;
+            break;
+        case 'ArrowLeft':
+            if (lastMove === 'ArrowRight') break;
+            clearSnake();
+            dx = -50;
+            dy = 0;
+            moveSnake();
+            if (snake[0].x < 0) snake[0].x = 500;
+            drawSnake();
+            lastMove = event.key;
+            break;
+        case 'ArrowRight':
+            if (lastMove === 'ArrowLeft') break;
+            clearSnake();
+            dx = 50;
+            dy = 0;
+            moveSnake();
+            if (snake[0].x > 500) snake[0].x = 0;
+            drawSnake();
+            lastMove = event.key;
+            break;
+    }
+}
+
+/*function moveSnake(event) {
     // listen to keyboard event
     switch (event.key) {
         // in case of arrowdown
@@ -83,3 +179,4 @@ function moveSnake(event) {
     event.preventDefault();
 }
 
+*/
