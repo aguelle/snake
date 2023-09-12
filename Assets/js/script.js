@@ -46,6 +46,10 @@ function drawSnake(whichSnake) {
 function clearSnake() {
   ctx.clearRect(positionLeft, positionTop, 50, 50);
 }
+// to clear apple
+function clearApple() {
+  ctx.clearRect(positionAppleLeft, positionAppleTop, 50, 50);
+}
 
 // call function to display apple
 drawApple(apple);
@@ -68,6 +72,7 @@ function moveSnake(event) {
       drawGrid(10);
       // to backup snake's move and to know where he is
       positionTop += 50;
+      eatApple();
       // if snake arrives to border we send him to the opposite side
       if (positionTop == 500) positionTop = 0;
       // draw actual snake with changes
@@ -80,6 +85,7 @@ function moveSnake(event) {
       clearSnake();
       drawGrid(10);
       positionTop -= 50;
+      eatApple();
       if (positionTop == -50) positionTop = 450;
       drawSnake(snakeUp);
       lastMove = event.key;
@@ -89,6 +95,7 @@ function moveSnake(event) {
       clearSnake();
       drawGrid(10);
       positionLeft -= 50;
+      eatApple();
       if (positionLeft == -50) positionLeft = 450;
       drawSnake(snakeLeft);
       lastMove = event.key;
@@ -98,6 +105,7 @@ function moveSnake(event) {
       clearSnake();
       drawGrid(10);
       positionLeft += 50;
+      eatApple();
       if (positionLeft == 500) positionLeft = 0;
       drawSnake(snakeRight);
       lastMove = event.key;
@@ -125,3 +133,9 @@ function drawGrid(gridLength) {
 
 // to draw a grid with 10 square length
 drawGrid(10);
+
+function eatApple() {
+  if (positionTop == positionAppleTop && positionLeft == positionAppleLeft) {
+    clearApple();
+  }
+}
