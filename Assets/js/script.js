@@ -24,9 +24,6 @@ function drawGrid(gridLength) {
     }
 }
 
-// to draw a grid with 10 square length
-drawGrid(10);
-
 // in this game, there is a snake
 // and we have to know where this good boy is
 let snake = [
@@ -48,9 +45,9 @@ function keepSnakePosition() {
 
 // target and choose which snake, a little hack to have a good snake's boy who move his head
 let snakeUp = document.getElementById("snakeUp");
-let snakeRight = document.getElementById("snakeRight");
-let snakeDown = document.getElementById("snakeDown");
-let snakeLeft = document.getElementById("snakeLeft");
+// let snakeRight = document.getElementById("snakeRight");
+// let snakeDown = document.getElementById("snakeDown");
+// let snakeLeft = document.getElementById("snakeLeft");
 
 // to see it, we have to draw it (interesting, hu)
 function drawSnake() {
@@ -61,9 +58,6 @@ function drawSnakePart(snakePart) {
     ctx.drawImage(snakeUp, snakePart.x, snakePart.y, 50, 50);
 }
 
-// he has a feeling, that's tonight gonna be a good night
-drawSnake();
-
 // but sometimes we need to clear this fellow englis-- uh snake, sorry
 function clearSnake() {
     snake.forEach(clearSnakePart);
@@ -73,27 +67,6 @@ function clearSnakePart(snakePart) {
     ctx.clearRect(snakePart.x, snakePart.y, 50, 50);
 }
 
-// in this game, there is also an apple (not the computer, please keep focus)
-let apple = document.getElementById("apple");
-let positionAppleTop = getRandom(0, 10) * 50;
-let positionAppleLeft = getRandom(0, 10) * 50; 
-
-// to draw this apple
-function drawApple(apple) {
-    ctx.drawImage(apple, positionAppleLeft, positionAppleTop, 50, 50);
-}
-
-// our snake loves to eat apple
-function clearApple() {
-    ctx.clearRect(positionAppleLeft, positionAppleTop, 50, 50);
-  }
-
-function eatApple() {
-    if (snake[0].y == positionAppleTop && snake[0].x == positionAppleLeft) {
-        clearApple();
-    }
-}
-
 // some randomize makes game more exciting
 function getRandom(min, max) {
     min = Math.ceil(min);
@@ -101,9 +74,39 @@ function getRandom(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+// in this game, there is also an apple (not the computer, please keep focus)
+let apple = document.getElementById("apple");
+
+// to draw this apple
+let positionAppleLeft = 0;
+let positionAppleTop = 0;
+
+function drawApple(apple) {
+    positionAppleLeft = getRandom(0, 10) * 50;
+    positionAppleTop = getRandom(0, 10) * 50;
+    ctx.drawImage(apple, positionAppleLeft, positionAppleTop, 50, 50);
+}
+
+// our snake loves to eat apple
+function eatApple() {
+    if (snake[0].y === positionAppleTop && snake[0].x === positionAppleLeft) {
+        clearApple();
+        drawApple(apple);
+        score += 50;
+        console.log(score);
+    }
+}
+
+function clearApple() {
+    ctx.clearRect(positionAppleLeft, positionAppleTop, 50, 50);
+}
+
+// we need a score to be the best
+let score = 0;
+document.getElementById('game-score').textContent = score;
+
 // moving this ####### snake with keyboard
 function moveSnakeWithKeyboard(event) {
-    drawApple(apple);
     switch (event.key) {
         case 'ArrowDown':
             if (lastMove === 'ArrowUp') break;
@@ -113,6 +116,7 @@ function moveSnakeWithKeyboard(event) {
             dx = 0;
             keepSnakePosition();
             if (snake[0].y === 500) snake[0].y = 0;
+            eatApple();
             drawSnake();
             lastMove = event.key;
             break;
@@ -124,6 +128,7 @@ function moveSnakeWithKeyboard(event) {
             dx = 0;
             keepSnakePosition();
             if (snake[0].y === -50) snake[0].y = 450;
+            eatApple();
             drawSnake();
             lastMove = event.key;
             break;
@@ -135,6 +140,7 @@ function moveSnakeWithKeyboard(event) {
             dy = 0;
             keepSnakePosition();
             if (snake[0].x === -50) snake[0].x = 450;
+            eatApple();
             drawSnake();
             lastMove = event.key;
             break;
@@ -146,15 +152,15 @@ function moveSnakeWithKeyboard(event) {
             dy = 0;
             keepSnakePosition();
             if (snake[0].x === 500) snake[0].x = 0;
+            eatApple();
             drawSnake();
             lastMove = event.key;
             break;
-    }
+    } 
 }
 
 // moving it with mouse or fingers
 function moveSnakeWithMouse(event) {
-    drawApple(apple);
     switch (event.target.getAttribute('class')) {
         case 'arrow arrowDown':
             if (lastMove === 'arrow arrowUp') break;
@@ -164,6 +170,7 @@ function moveSnakeWithMouse(event) {
             dx = 0;
             keepSnakePosition();
             if (snake[0].y === 500) snake[0].y = 0;
+            eatApple();
             drawSnake();
             lastMove = event.target.getAttribute('class');
             break;
@@ -175,6 +182,7 @@ function moveSnakeWithMouse(event) {
             dx = 0;
             keepSnakePosition();
             if (snake[0].y === -50) snake[0].y = 450;
+            eatApple();
             drawSnake();
             lastMove = event.target.getAttribute('class');
             break;
@@ -186,6 +194,7 @@ function moveSnakeWithMouse(event) {
             dy = 0;
             keepSnakePosition();
             if (snake[0].x === -50) snake[0].x = 450;
+            eatApple();
             drawSnake();
             lastMove = event.target.getAttribute('class');
             break;
@@ -197,8 +206,17 @@ function moveSnakeWithMouse(event) {
             dy = 0;
             keepSnakePosition();
             if (snake[0].x === 500) snake[0].x = 0;
+            eatApple();
             drawSnake();
             lastMove = event.target.getAttribute('class');
             break;
     }
 }
+
+function runGame() {
+    drawGrid(10);
+    drawSnake();
+    drawApple(apple);
+}
+
+window.onload = runGame;
