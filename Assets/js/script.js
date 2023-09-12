@@ -135,7 +135,7 @@ function moveSnakeWithMouse(event) {
             dy = +50;
             dx = 0;
             moveSnake();
-            if (snake[0].y > 500) snake[0].y = 0;
+            if (snake[0].y === 500) snake[0].y = 0;
             drawSnake();
             lastMove = event.target.getAttribute('class');
             break;
@@ -146,7 +146,7 @@ function moveSnakeWithMouse(event) {
             dy = -50;
             dx = 0;
             moveSnake();
-            if (snake[0].y < 0) snake[0].y = 500;
+            if (snake[0].y === -50) snake[0].y = 450;
             drawSnake();
             lastMove = event.target.getAttribute('class');
             break;
@@ -157,7 +157,7 @@ function moveSnakeWithMouse(event) {
             dx = -50;
             dy = 0;
             moveSnake();
-            if (snake[0].x < 0) snake[0].x = 500;
+            if (snake[0].x === -50) snake[0].x = 450;
             drawSnake();
             lastMove = event.target.getAttribute('class');
             break;
@@ -168,7 +168,7 @@ function moveSnakeWithMouse(event) {
             dx = 50;
             dy = 0;
             moveSnake();
-            if (snake[0].x > 500) snake[0].x = 0;
+            if (snake[0].x === 500) snake[0].x = 0;
             drawSnake();
             lastMove = event.target.getAttribute('class');
             break;
