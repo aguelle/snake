@@ -4,9 +4,11 @@ window.addEventListener("keydown", moveSnake);
 // to record snake position, we have to know where he is everytime
 let positionTop = 0;
 let positionLeft = 0;
-let positionAppleTop = getRandom(0, 10)*50;
-let positionAppleLeft = getRandom(0, 10)*50;
+let positionAppleTop = getRandom(0, 10) * 50;
 console.log(positionAppleTop);
+let positionAppleLeft = getRandom(0, 10) * 50;
+console.log(positionAppleLeft);
+
 // to get canvas dimension, this is the snake's playground
 let canvasHeight = document.getElementById("canvas").getAttribute("height");
 let canvasWidth = document.getElementById("canvas").getAttribute("width");
@@ -20,16 +22,17 @@ let snakeRight = document.getElementById("snakeRight");
 let snakeDown = document.getElementById("snakeDown");
 let snakeLeft = document.getElementById("snakeLeft");
 
+// Select Apple
+let apple = document.getElementById("apple");
+
+// create function Random
 function getRandom(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// Select Apple
-let apple = document.getElementById("apple");
-
-// to draw the apple
+// to draw apple
 function drawApple(apple) {
   ctx.drawImage(apple, positionAppleLeft, positionAppleTop, 50, 50);
 }
@@ -43,6 +46,9 @@ function drawSnake(whichSnake) {
 function clearSnake() {
   ctx.clearRect(positionLeft, positionTop, 50, 50);
 }
+
+// call function to display apple
+drawApple(apple);
 
 // call function to start with a snake already visible, if not we have nothing on the canvas at the start
 drawSnake(snakeUp);
