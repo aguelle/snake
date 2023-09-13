@@ -148,6 +148,14 @@ function displayGameOver() {
   endgame = window.open("endgame.html", endgameFeatures);
 }
 
+// US17 -function timer to know duration of a game
+let timer = 0;
+		function grow() {
+			timer++;
+			document.getElementById("timer").innerHTML = timer;
+		}
+		setInterval("grow()", 1000);
+
 // we need a score to be the best
 let score = 0;
 document.getElementById("game-score").textContent = score;
