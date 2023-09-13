@@ -10,8 +10,10 @@
 
 <body>
     <canvas id="canvas" height="500" width="500"></canvas>
-    <h2 class="game-score-title">SCORE</h2>
-    <p id="game-score" class="game-score"></p>
+    <div class="score">
+        <h2 class="game-score-title">SCORE</h2>
+        <p id="game-score" class="game-score"></p>
+    </div>
     <div class="command">
         <img src="Assets/img/arrowUp.png" alt="arrow" class="arrow arrowUp">
         <div class="command-center">
@@ -31,6 +33,8 @@
         <a id="back" class="back" href="index.html">Back</a>
     </button>
 
+    <div id ="timer">       
+    </div>
     <div id="window-message" class="text-btn-replay">
         <p class="p-1">T'es mort ? Sérieux ? C'te honte !</p>
         <p class="p-2">Press le bouton REPLAY pour rejouer</p>
@@ -38,7 +42,7 @@
             <a class="back" href="game.html">Replay</a>
         </button>
     </div>
-    
+
     <script src="Assets/js/script.js"></script>
 </body>
 

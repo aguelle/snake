@@ -19,7 +19,7 @@ body {
 #canvas {
     width: 90%;
     display: flex;
-    margin: 70px auto;
+    margin: 30px auto 0px auto;
     background-color: white;
 }
 
@@ -47,7 +47,7 @@ h1 {
 }
 
 .btn-back {
-    margin: 50px 40px;
+    margin: 0px 20px;
     display: flex;
     font-weight: 600;
     padding: 15px 30px;
@@ -116,7 +116,15 @@ h1 {
 }
 
 .arrowUp {
-    margin-top: 50px;
+    margin-top: -30px;
+}
+
+.score {
+    margin-top: -30px;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }
 
 @media all and (min-width: 544px) {
@@ -143,9 +151,13 @@ h1 {
 
     .btn-back {
         position: absolute;
-        margin-top: -18%;
-        margin-left: 75%;
+        margin-top: -20%;
+        margin-left: 80%;
     }
 
-
+    .score {
+        margin-top: -100px;
+        width: 50%;
+    }
+    
 }
