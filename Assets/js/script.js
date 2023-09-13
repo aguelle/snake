@@ -38,18 +38,17 @@ let dx = 0;
 let dy = 0;
 
 function moveSnake() {
-  const head = { x: snake[0].x + dx, y: snake[0].y + dy };
-  snake.unshift(head);
-  const eatApple =
-    snake[0].y === positionAppleTop && snake[0].x === positionAppleLeft;
-  if (eatApple) {
-    clearApple();
-    drawApple(apple);
-    score += 50;
-    console.log(score);
-  } else {
-    snake.pop();
-  }
+    const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+    snake.unshift(head);
+    const eatApple = snake[0].y === positionAppleTop && snake[0].x === positionAppleLeft
+    if (eatApple) {
+        clearApple();
+        drawApple(apple);
+        score += 50;
+        console.log(score);
+    } else {
+        snake.pop();
+    }
 }
 
 // function keepSnakePosition() {
@@ -271,6 +270,11 @@ function moveSnakeWithMouse(event) {
       lastMove = event.target.getAttribute("class");
       break;
   }
+}
+
+function btnReplay() {
+    let hiddenBtn = document.getElementById("window-message");
+    hiddenBtn.style.display = "block";
 }
 
 function runGame() {
