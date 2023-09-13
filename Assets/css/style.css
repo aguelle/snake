@@ -57,7 +57,7 @@ h1 {
 
 
 .btn-replay {
-    margin: 100px 80px;
+    margin: 35px 375px;
     display: block;
     font-weight: 600;
     padding: 15px 30px;
@@ -66,13 +66,22 @@ h1 {
 }
 
 .text-btn-replay {
-    background-color: brown;
-    padding: 100px 80px;
+    background-color: #9BAF8C;
+    padding: 50px 200px;
     position: absolute;
     top: 25%;
     left: 25%;
     display: none;
+    justify-content: center;
+}
 
+.p-1 {
+    font-size: 60px;
+}
+
+.p-2 {
+    font-size: 30px;
+    text-align: center;
 }
 
 .start {

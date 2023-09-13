@@ -27,31 +27,55 @@ function drawGrid(gridLength) {
 // in this game, there is a snake
 // and we have to know where this good boy is
 let snake = [
-    { x: 250, y: 250 },
-    { x: 250, y: 200 },
-    { x: 250, y: 150 }
+    { x: 200, y: 250 },
+    { x: 200, y: 300 },
+    { x: 200, y: 350 }
 ];
 
-let lastMove;
+let lastMove = 'ArrowUp';
 
 let dx = 0;
 let dy = 0;
 
-function keepSnakePosition() {
+function moveSnake() {
     const head = { x: snake[0].x + dx, y: snake[0].y + dy };
     snake.unshift(head);
-    snake.pop()
+    const eatApple = snake[0].y === positionAppleTop && snake[0].x === positionAppleLeft
+    if (eatApple) {
+        clearApple();
+        drawApple(apple);
+        score += 50;
+        console.log(score);
+    } else {
+        snake.pop();
+    }
 }
+
+// function keepSnakePosition() {
+//     const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+//     snake.unshift(head);
+//     const hasEatenApple = snake[0].y === positionAppleTop && snake[0].x === positionAppleLeft;
+//     if (hasEatenApple)
+//     snake.pop();
+// }
 
 // target and choose which snake, a little hack to have a good snake's boy who move his head
 let snakeHeadUp = document.getElementById("snake-head-up");
+let snakeHeadDown = document.getElementById("snake-head-down");
+let snakeHeadLeft = document.getElementById("snake-head-left");
+let snakeHeadRight = document.getElementById("snake-head-right");
 // let snakeRight = document.getElementById("snakeRight");
 // let snakeDown = document.getElementById("snakeDown");
 // let snakeLeft = document.getElementById("snakeLeft");
 
 // to see it, we have to draw it (interesting, hu)
-function drawSnake() {
-    snake.forEach(drawSnakePart);
+function drawSnakeHead(snakeHead) {
+    ctx.drawImage(snakeHead, snake[0].x, snake[0].y, 50, 50);
+}
+
+function drawSnake(snakeHead) {
+    snake.forEach(drawSnakeBody);
+    drawSnakeHead(snakeHead);
 }
 
 function drawSnakePart(snakePart) {
@@ -83,20 +107,20 @@ let positionAppleLeft = 0;
 let positionAppleTop = 0;
 
 function drawApple(apple) {
-    positionAppleLeft = getRandom(0, 10) * 50;
-    positionAppleTop = getRandom(0, 10) * 50;
+    positionAppleLeft = getRandom(0, 9) * 50;
+    positionAppleTop = getRandom(0, 9) * 50;
     ctx.drawImage(apple, positionAppleLeft, positionAppleTop, 50, 50);
 }
 
 // our snake loves to eat apple
-function eatApple() {
-    if (snake[0].y === positionAppleTop && snake[0].x === positionAppleLeft) {
-        clearApple();
-        drawApple(apple);
-        score += 50;
-        console.log(score);
-    }
-}
+// function eatApple() {
+//     if (snake[0].y === positionAppleTop && snake[0].x === positionAppleLeft) {
+//         clearApple();
+//         drawApple(apple);
+//         score += 50;
+//         console.log(score);
+//     }
+// }
 
 function clearApple() {
     ctx.clearRect(positionAppleLeft, positionAppleTop, 50, 50);
@@ -115,10 +139,11 @@ function moveSnakeWithKeyboard(event) {
             drawGrid(10);
             dy = +50;
             dx = 0;
-            keepSnakePosition();
+            // keepSnakePosition();
+            moveSnake();
             if (snake[0].y === 500) snake[0].y = 0;
-            eatApple();
-            drawSnake();
+            // eatApple();
+            drawSnake(snakeHeadDown);
             lastMove = event.key;
             break;
         case 'ArrowUp':
@@ -127,10 +152,11 @@ function moveSnakeWithKeyboard(event) {
             drawGrid(10);
             dy = -50;
             dx = 0;
-            keepSnakePosition();
+            // keepSnakePosition();
+            moveSnake();
             if (snake[0].y === -50) snake[0].y = 450;
-            eatApple();
-            drawSnake();
+            // eatApple();
+            drawSnake(snakeHeadUp);
             lastMove = event.key;
             break;
         case 'ArrowLeft':
@@ -139,10 +165,11 @@ function moveSnakeWithKeyboard(event) {
             drawGrid(10);
             dx = -50;
             dy = 0;
-            keepSnakePosition();
+            // keepSnakePosition();
+            moveSnake();
             if (snake[0].x === -50) snake[0].x = 450;
-            eatApple();
-            drawSnake();
+            // eatApple();
+            drawSnake(snakeHeadLeft);
             lastMove = event.key;
             break;
         case 'ArrowRight':
@@ -151,10 +178,11 @@ function moveSnakeWithKeyboard(event) {
             drawGrid(10);
             dx = 50;
             dy = 0;
-            keepSnakePosition();
+            // keepSnakePosition();
+            moveSnake();
             if (snake[0].x === 500) snake[0].x = 0;
-            eatApple();
-            drawSnake();
+            // eatApple();
+            drawSnake(snakeHeadRight);
             lastMove = event.key;
             break;
     }
@@ -221,7 +249,7 @@ function btnReplay() {
 
 function runGame() {
     drawGrid(10);
-    drawSnake();
+    drawSnake(snakeHeadUp);
     drawApple(apple);
 }
 
