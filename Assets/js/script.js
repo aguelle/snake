@@ -128,6 +128,14 @@ function displayGameOver() {
     endgame = window.open("endgame.html", endgameFeatures);
 }
 
+// US17 -function timer to know duration of a game
+let timer = 0;
+		function grow() {
+			timer++;
+			document.getElementById("timer").innerHTML = timer;
+		}
+		setInterval("grow()", 1000);
+
 // we need a score to be the best
 let score = 0;
 function displayScore() {
@@ -251,26 +259,26 @@ function moveSnakeWithMouse(event) {
     }
 }
 
-// function main() {
-//     setTimeout(function onTick() {
-//       clearSnake();
-//       drawGrid(10);
-//       moveSnake();
-//       if (lastMove === "ArrowUp") {
-//         drawSnake(snakeHeadUp);
-//       }
-//       if (lastMove === "ArrowDown") {
-//         drawSnake(snakeHeadDown);
-//       }
-//       if (lastMove === "ArrowLeft") {
-//         drawSnake(snakeHeadLeft);
-//       }
-//       if (lastMove === "ArrowRight") {
-//         drawSnake(snakeHeadRight);
-//       }
-//       main();
-//     }, 1000)
-//   }
+function main() {
+    setTimeout(function onTick() {
+      clearSnake();
+      drawGrid(10);
+      moveSnake();
+      if (lastMove === "ArrowUp") {
+        drawSnake(snakeHeadUp);
+      }
+      if (lastMove === "ArrowDown") {
+        drawSnake(snakeHeadDown);
+      }
+      if (lastMove === "ArrowLeft") {
+        drawSnake(snakeHeadLeft);
+      }
+      if (lastMove === "ArrowRight") {
+        drawSnake(snakeHeadRight);
+      }
+      main();
+    }, 1000)
+  }
 
 function btnReplay() {
     let hiddenBtn = document.getElementById("window-message");
@@ -282,7 +290,8 @@ function runGame() {
     drawSnake(snakeHeadUp);
     drawApple();
     displayScore();
-    main();
+    // if you want snake to move each second, decomment main function
+    // main();
 }
 
 window.onload = runGame;
