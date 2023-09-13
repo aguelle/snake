@@ -56,7 +56,7 @@ function drawSnake() {
 
 function drawSnakePart(snakePart) {
     ctx.drawImage(snakeHeadUp
-    , snakePart.x, snakePart.y, 50, 50);
+        , snakePart.x, snakePart.y, 50, 50);
 }
 
 // but sometimes we need to clear this fellow englis-- uh snake, sorry
@@ -157,7 +157,7 @@ function moveSnakeWithKeyboard(event) {
             drawSnake();
             lastMove = event.key;
             break;
-    } 
+    }
 }
 
 // moving it with mouse or fingers
@@ -212,6 +212,11 @@ function moveSnakeWithMouse(event) {
             lastMove = event.target.getAttribute('class');
             break;
     }
+}
+
+function btnReplay() {
+    let hiddenBtn = document.getElementById("window-message");
+    hiddenBtn.style.display = "block";
 }
 
 function runGame() {
