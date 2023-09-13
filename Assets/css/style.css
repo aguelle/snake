@@ -2,7 +2,7 @@
     font-family: 'modak';
     src: url('/Assets/fonts/Modak-Regular.ttf');
 }
-
+.kitty,
 .snake,
 .apple {
     display: none;
