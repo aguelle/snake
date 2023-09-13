@@ -108,9 +108,14 @@ let apple = document.getElementById("apple");
 let positionAppleLeft = 0;
 let positionAppleTop = 0;
 
-function drawApple(apple) {
+function drawApple() {
     positionAppleLeft = getRandom(0, 9) * 50;
     positionAppleTop = getRandom(0, 9) * 50;
+    snake.forEach(function(snakePart) {
+        if (snakePart.x === positionAppleLeft && snakePart.y === positionAppleTop) {
+            drawApple();
+        }
+    });
     ctx.drawImage(apple, positionAppleLeft, positionAppleTop, 50, 50);
 }
 
@@ -247,7 +252,7 @@ function moveSnakeWithMouse(event) {
 function runGame() {
     drawGrid(10);
     drawSnake(snakeHeadUp);
-    drawApple(apple);
+    drawApple();
 }
 
 window.onload = runGame;
