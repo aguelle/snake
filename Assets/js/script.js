@@ -44,7 +44,7 @@ function keepSnakePosition() {
 }
 
 // target and choose which snake, a little hack to have a good snake's boy who move his head
-let snakeUp = document.getElementById("snakeUp");
+let snakeHeadUp = document.getElementById("snake-head-up");
 // let snakeRight = document.getElementById("snakeRight");
 // let snakeDown = document.getElementById("snakeDown");
 // let snakeLeft = document.getElementById("snakeLeft");
@@ -55,7 +55,8 @@ function drawSnake() {
 }
 
 function drawSnakePart(snakePart) {
-    ctx.drawImage(snakeUp, snakePart.x, snakePart.y, 50, 50);
+    ctx.drawImage(snakeHeadUp
+    , snakePart.x, snakePart.y, 50, 50);
 }
 
 // but sometimes we need to clear this fellow englis-- uh snake, sorry
