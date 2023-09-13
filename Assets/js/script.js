@@ -134,19 +134,20 @@ function clearApple() {
   ctx.clearRect(positionAppleLeft, positionAppleTop, 50, 50);
 }
 // US11 - Snake die if it touch himself.
-// function deadSnake() {
-//     snake.forEach(function(snakePart) {
-//         if (snake[0].y === snakePart.y && snake[0].x === snakePart.x){
-//             clearSnake();
-//         }
-//     })};
 function deadSnake() {
   for (let i = 1; i < snake.length; i++) {
     if (snake[0].y === snake[i].y && snake[0].x === snake[i].x) {
-      clearSnake();
+      displayGameOver();
     }
   }
-};
+}
+// US14 - Function Game Over end display score
+let endgame;
+let endgameFeatures = "left=100;top=100;width=320;height=320";
+
+function displayGameOver() {
+  endgame = window.open("endgame.html", endgameFeatures);
+}
 
 // we need a score to be the best
 let score = 0;
@@ -227,6 +228,7 @@ function moveSnakeWithMouse(event) {
       if (snake[0].y === 500) snake[0].y = 0;
       eatApple();
       drawSnake();
+      deadSnake();
       lastMove = event.target.getAttribute("class");
       break;
     case "arrow arrowUp":
@@ -239,6 +241,7 @@ function moveSnakeWithMouse(event) {
       if (snake[0].y === -50) snake[0].y = 450;
       eatApple();
       drawSnake();
+      deadSnake();
       lastMove = event.target.getAttribute("class");
       break;
     case "arrow arrowLeft":
@@ -251,6 +254,7 @@ function moveSnakeWithMouse(event) {
       if (snake[0].x === -50) snake[0].x = 450;
       eatApple();
       drawSnake();
+      deadSnake();
       lastMove = event.target.getAttribute("class");
       break;
     case "arrow arrowRight":
@@ -263,6 +267,7 @@ function moveSnakeWithMouse(event) {
       if (snake[0].x === 500) snake[0].x = 0;
       eatApple();
       drawSnake();
+      deadSnake();
       lastMove = event.target.getAttribute("class");
       break;
   }
