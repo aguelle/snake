@@ -38,7 +38,7 @@ let dx = 0;
 let dy = 0;
 
 function moveSnake() {
-    const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+    const head = { x: snake[0].x + dx, y: snake[0].y + dy };
     snake.unshift(head);
     const eatApple = snake[0].y === positionAppleTop && snake[0].x === positionAppleLeft
     if (eatApple) {
@@ -78,11 +78,9 @@ function drawSnake(snakeHead) {
     drawSnakeHead(snakeHead);
 }
 
-function drawSnakeBody(snakeBody) {
-    //ctx.drawImage(snakeHeadUp
-    if (snakeBody === snake[0]) return;
-    ctx.fillStyle = 'lightgreen';
-    ctx.fillRect(snakeBody.x, snakeBody.y, 50, 50);
+function drawSnakePart(snakePart) {
+    ctx.drawImage(snakeHeadUp
+        , snakePart.x, snakePart.y, 50, 50);
 }
 
 // but sometimes we need to clear this fellow englis-- uh snake, sorry
@@ -192,7 +190,7 @@ function moveSnakeWithKeyboard(event) {
             drawSnake(snakeHeadRight);
             lastMove = event.key;
             break;
-    } 
+    }
 }
 
 // moving it with mouse or fingers
@@ -247,6 +245,11 @@ function moveSnakeWithMouse(event) {
             lastMove = event.target.getAttribute('class');
             break;
     }
+}
+
+function btnReplay() {
+    let hiddenBtn = document.getElementById("window-message");
+    hiddenBtn.style.display = "block";
 }
 
 function runGame() {
