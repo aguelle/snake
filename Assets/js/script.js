@@ -82,8 +82,12 @@ function drawSnakeTail(snakeTail) {
 
 function drawSnakeBody(snakeBody) {
     if (snakeBody === snake[0] || snakeBody === snake[snakeTailIndex]) return;
-    ctx.fillStyle = "lightgreen";
-    ctx.fillRect(snakeBody.x, snakeBody.y, 50, 50);
+    if (lastMove === "ArrowUp" || lastMove === "arrow arrowUp" || lastMove === "ArrowDown" || lastMove === "arrow arrowDown") {
+        ctx.drawImage(snakeBodyY, snakeBody.x, snakeBody.y, 50, 50);
+    }
+    if (lastMove === "ArrowLeft" || lastMove === "arrow arrowLeft" || lastMove === "ArrowRight" || lastMove === "arrow arrowRight") {
+        ctx.drawImage(snakeBodyX, snakeBody.x, snakeBody.y, 50, 50);
+    }
 }
 
 // but sometimes we need to clear this fellow englis-- uh snake, sorry
