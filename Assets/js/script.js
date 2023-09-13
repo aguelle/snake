@@ -129,12 +129,34 @@ function displayGameOver() {
 }
 
 // US17 -function timer to know duration of a game
-let timer = 0;
-		function grow() {
-			timer++;
-			document.getElementById("timer").innerHTML = timer;
-		}
-		setInterval("grow()", 1000);
+let millisecondes = 0;
+let secondes = 0;
+let minutes = 0;
+let counter;
+
+function timer(){
+  counter = setInterval(function(){
+      time.textContent = minutes + ' : ' + secondes + ' : ' + millisecondes;
+      millisecondes += 1;
+      if(millisecondes >= 10){millisecondes = 0; secondes += 1;}
+      if(secondes >= 60){secondes = 0; minutes += 1;}
+  }, 100)
+}
+
+// function growSecondes() {
+// 			secondes++;
+// 			document.getElementById("secondes").innerHTML = secondes;
+// 		}
+// 		setInterval("growSecondes()", 1000);
+
+
+//     function growMinutes(){
+// minutes++;
+// document.getElementById("minutes").innerHTML = minutes;
+//     }
+//     setInterval("growMinutes()",59000) 
+
+
 
 // we need a score to be the best
 let score = 0;
@@ -291,7 +313,8 @@ function runGame() {
     drawApple();
     displayScore();
     // if you want snake to move each second, decomment main function
-    // main();
+    main();
+    timer();
 }
 
 window.onload = runGame;
