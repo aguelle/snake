@@ -126,6 +126,13 @@ h1 {
     align-items: center;
     justify-content: space-around;
 }
+.time {
+    margin-top: -30px;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
 
 @media all and (min-width: 544px) {
 
