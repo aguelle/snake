@@ -161,6 +161,7 @@ let counter;
 
 function timer(){
   counter = setInterval(function(){
+    if (changingDirection === false) return;
       time.textContent = minutes + ' : ' + secondes + ' : ' + millisecondes;
       millisecondes += 1;
       if(millisecondes >= 10){millisecondes = 0; secondes += 1;}
