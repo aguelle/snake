@@ -1,5 +1,5 @@
 // here we listen everything everywhere everytime
-window.addEventListener("keydown", moveSnakeWithKeyboard);
+document.addEventListener("keydown", moveSnakeWithKeyboard);
 // window.addEventListener("click", moveSnakeWithMouse);
 
 // target canvas element in html and make a 2d context in it, that's how canvas works
@@ -36,7 +36,10 @@ let lastMove = "ArrowUp";
 let dx = 0;
 let dy = 0;
 
+let changingDirection = false;
+
 function moveSnake() {
+  if (changingDirection === false) return;
     const head = { x: snake[0].x + dx, y: snake[0].y + dy };
     snake.unshift(head);
     const eatApple = snake[0].y === positionAppleTop && snake[0].x === positionAppleLeft
@@ -49,7 +52,7 @@ function moveSnake() {
     } else {
         snake.pop();
     }
-}
+  }
 
 // target and choose which snake, a little hack to have a good snake's boy who move his head
 let snakeHeadUp = document.getElementById("snake-head-up");
@@ -134,6 +137,7 @@ function clearApple() {
 function deadSnake() {
     for (let i = 1; i < snake.length; i++) {
         if (snake[0].y === snake[i].y && snake[0].x === snake[i].x) {
+          changingDirection = false;
             displayGameOver();
             // btnReplay();
         }
@@ -157,6 +161,7 @@ let counter;
 
 function timer(){
   counter = setInterval(function(){
+    if (changingDirection === false) return;
       time.textContent = minutes + ' : ' + secondes + ' : ' + millisecondes;
       millisecondes += 1;
       if(millisecondes >= 10){millisecondes = 0; secondes += 1;}
@@ -180,6 +185,7 @@ function borderMirror() {
 
 // moving this snake with keyboard
 function moveSnakeWithKeyboard(event) {
+  changingDirection = true;
     switch (event.key) {
         case "ArrowDown":
             if (lastMove === "ArrowUp" || lastMove === "arrow arrowUp") break;
