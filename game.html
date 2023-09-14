@@ -12,9 +12,8 @@
     <canvas id="canvas" height="500" width="500"></canvas>
     <div class="score">
         <h2 class="game-score-title">SCORE</h2>
-        <p id="game-score" ></p>
-    </div>
-    <div id ="time" class = "time">
+        <p id="game-score"></p>
+        <p id="time" class="time"></p>
     </div>
     <div class="command">
         <img src="Assets/img/arrowUp.png" alt="arrow" class="arrow arrowUp">
@@ -44,7 +43,15 @@
     <div id="window-message" class="text-btn-replay">
         <p class="p-1">T'es mort ? Sérieux ? C'te honte !</p>
         <p class="p-2">Press le bouton REPLAY pour rejouer</p>
-        <button id="replay" class="btn-replay">
+        <div class="end-score score">
+            <h2 class="game-score-title">SCORE</h2>
+            <p id="end-game-score"></p>
+            <p id="end-time" class="time"></p>
+        </div>
+        <div>
+            <input type="text" placeholder="Votre nom">
+        </div>
+        <button id="replay" class="btn-replay btn">
             <a class="back" href="game.html">Replay</a>
         </button>
     </div>

@@ -57,30 +57,33 @@ h1 {
 
 
 .btn-replay {
-    margin: 35px 375px;
-    display: block;
+    margin: 0px 20px;
+    display: flex;
     font-weight: 600;
     padding: 15px 30px;
     border-radius: 100px;
-    background-color: black
+    background-color: black;
 }
 
 .text-btn-replay {
-    background-color: #9BAF8C;
-    padding: 50px 200px;
+    text-align: center;
+    background-color: #c0ceb6;
+    padding: 10px;
     position: absolute;
     top: 25%;
-    left: 25%;
+    left: 10%;
     display: none;
     justify-content: center;
 }
 
 .p-1 {
-    font-size: 60px;
+    margin-top: 0px;
+    font-size: 3rem;
 }
 
 .p-2 {
-    font-size: 30px;
+    margin-top: -30px;
+    font-size: 2rem;
     text-align: center;
 }
 
@@ -120,13 +123,6 @@ h1 {
 }
 
 .score {
-    margin-top: -30px;
-    font-size: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-}
-.time {
     margin-top: -30px;
     font-size: 2rem;
     display: flex;
