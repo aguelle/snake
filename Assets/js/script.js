@@ -9,25 +9,33 @@ let ctx = document.getElementById("canvas").getContext("2d");
 let canvasHeight = document.getElementById("canvas").getAttribute("height");
 let canvasWidth = document.getElementById("canvas").getAttribute("width");
 
+// we call the value of gridSize saved in the local storage
+let gridSize = localStorage.getItem("gridSize");
+console.log(gridSize);
+
+// we calculate the each box's size depending on gridSize
+let boxSize = canvasWidth / gridSize;
+console.log(boxSize);
+
 // function to draw the grid in canvas, with length in parameter
-function drawGrid(gridLength) {
+function drawGrid() {
     let positionX = 0;
     let positionY = 0;
-    for (let y = 0; y < gridLength; y++) {
-        for (let x = 0; x < gridLength; x++) {
-            ctx.strokeRect(positionX, positionY, 50, 50);
-            positionX += 50;
+    for (let y = 0; y < gridSize; y++) {
+        for (let x = 0; x < gridSize; x++) {
+            ctx.strokeRect(positionX, positionY, boxSize, boxSize);
+            positionX += boxSize;
         }
         positionX = 0;
-        positionY += 50;
+        positionY += boxSize;
     }
 }
 
 // each snake segment's positions
 let snake = [
-    { x: 200, y: 250 },
-    { x: 200, y: 300 },
-    { x: 200, y: 350 },
+    { x: 200, y: 500 - boxSize * 3 },
+    { x: 200, y: 500 - boxSize * 2 },
+    { x: 200, y: 500 - boxSize },
 ];
 
 // to not be able to go back
@@ -74,22 +82,22 @@ function drawSnake(snakeHead, snakeTail) {
 }
 
 function drawSnakeHead(snakeHead) {
-    ctx.drawImage(snakeHead, snake[0].x, snake[0].y, 50, 50);
+    ctx.drawImage(snakeHead, snake[0].x, snake[0].y, boxSize, boxSize);
 }
 
 let snakeTailIndex = snake.length - 1;
 
 function drawSnakeTail(snakeTail) {
-    ctx.drawImage(snakeTail, snake[snakeTailIndex].x, snake[snakeTailIndex].y, 50, 50);
+    ctx.drawImage(snakeTail, snake[snakeTailIndex].x, snake[snakeTailIndex].y, boxSize, boxSize);
 }
 
 function drawSnakeBody(snakeBody) {
     if (snakeBody === snake[0] || snakeBody === snake[snakeTailIndex]) return;
     if (lastMove === "ArrowUp" || lastMove === "arrow arrowUp" || lastMove === "ArrowDown" || lastMove === "arrow arrowDown") {
-        ctx.drawImage(snakeBodyY, snakeBody.x, snakeBody.y, 50, 50);
+        ctx.drawImage(snakeBodyY, snakeBody.x, snakeBody.y, boxSize, boxSize);
     }
     if (lastMove === "ArrowLeft" || lastMove === "arrow arrowLeft" || lastMove === "ArrowRight" || lastMove === "arrow arrowRight") {
-        ctx.drawImage(snakeBodyX, snakeBody.x, snakeBody.y, 50, 50);
+        ctx.drawImage(snakeBodyX, snakeBody.x, snakeBody.y, boxSize, boxSize);
     }
 }
 
@@ -99,7 +107,7 @@ function clearSnake() {
 }
 
 function clearSnakePart(snakePart) {
-    ctx.clearRect(snakePart.x, snakePart.y, 50, 50);
+    ctx.clearRect(snakePart.x, snakePart.y, boxSize, boxSize);
 }
 
 // some randomize makes game more exciting
@@ -119,18 +127,18 @@ function drawApple() {
     // if we want a cat later
     // let maybe = getRandom(1, 10);
     // maybe === 10 ? apple = document.getElementById('kitty') : apple = document.getElementById('apple');
-    positionAppleLeft = getRandom(0, 9) * 50;
-    positionAppleTop = getRandom(0, 9) * 50;
+    positionAppleLeft = getRandom(0, gridSize - 1) * boxSize;
+    positionAppleTop = getRandom(0, gridSize - 1) * boxSize;
     snake.forEach(function (snakePart) {
         if (snakePart.x === positionAppleLeft && snakePart.y === positionAppleTop) {
             drawApple();
         }
     });
-    ctx.drawImage(apple, positionAppleLeft, positionAppleTop, 50, 50);
+    ctx.drawImage(apple, positionAppleLeft, positionAppleTop, boxSize, boxSize);
 }
 
 function clearApple() {
-    ctx.clearRect(positionAppleLeft, positionAppleTop, 50, 50);
+    ctx.clearRect(positionAppleLeft, positionAppleTop, boxSize, boxSize);
 }
 
 // US11 - Snake die if it touch himself.
@@ -139,7 +147,7 @@ function deadSnake() {
         if (snake[0].y === snake[i].y && snake[0].x === snake[i].x) {
             changingDirection = false;
             clearSnake();
-            drawGrid(10);
+            drawGrid();
             displayGameOver();
             endTimer();
             saveScoreInformation();
@@ -183,8 +191,8 @@ function displayTime() {
 
 function borderMirror() {
     if (snake[0].y === 500) snake[0].y = 0;
-    if (snake[0].y === -50) snake[0].y = 450;
-    if (snake[0].x === -50) snake[0].x = 450;
+    if (snake[0].y === -boxSize) snake[0].y = 500 - boxSize;
+    if (snake[0].x === -boxSize) snake[0].x = 500 - boxSize;
     if (snake[0].x === 500) snake[0].x = 0;
 }
 
@@ -195,25 +203,25 @@ function moveSnakeWithKeyboard(event) {
         case "ArrowDown":
             if (lastMove === "ArrowUp" || lastMove === "arrow arrowUp") break;
             lastMove = event.key;
-            dy = +50;
+            dy = boxSize;
             dx = 0;
             break;
         case "ArrowUp":
             if (lastMove === "ArrowDown" || lastMove === "arrow arrowDown") break;
             lastMove = event.key;
-            dy = -50;
+            dy = -boxSize;
             dx = 0;
             break;
         case "ArrowLeft":
             if (lastMove === "ArrowRight" || lastMove === "arrow arrowRight") break;
             lastMove = event.key;
-            dx = -50;
+            dx = -boxSize;
             dy = 0;
             break;
         case "ArrowRight":
             if (lastMove === "ArrowLeft" || lastMove === "arrow arrowLeft") break;
             lastMove = event.key;
-            dx = 50;
+            dx = boxSize;
             dy = 0;
             break;
     }
@@ -225,7 +233,7 @@ let gameSpeed = 1000;
 function loopTheGame() {
     setTimeout(function timer() {
         clearSnake();
-        drawGrid(10);
+        drawGrid();
         moveSnake();
         borderMirror();
         if (lastMove === "ArrowUp" || lastMove === "arrow arrowUp") {
@@ -247,7 +255,7 @@ function loopTheGame() {
 }
 
 function runGame() {
-    drawGrid(10);
+    drawGrid();
     drawSnake(snakeHeadUp, snakeTailUp);
     drawApple();
     displayScore();
@@ -270,25 +278,25 @@ function moveSnakeWithMouse(event) {
         case "arrow arrowDown":
             if ( lastMove == "ArrowUp" || lastMove === "arrow arrowUp") break;
             lastMove = event.target.getAttribute("class");
-            dy = +50;
+            dy = boxSize;
             dx = 0;
             break;
         case "arrow arrowUp":
             if (lastMove == "ArrowDown" || lastMove === "arrow arrowDown") break;
             lastMove = event.target.getAttribute("class");
-            dy = -50;
+            dy = -boxSize;
             dx = 0;
             break;
         case "arrow arrowLeft":
             if (lastMove == "ArrowRight" || lastMove === "arrow arrowRight") break;
             lastMove = event.target.getAttribute("class");
-            dx = -50;
+            dx = -boxSize;
             dy = 0;
             break;
         case "arrow arrowRight":
             if (lastMove == "ArrowLeft" || lastMove === "arrow arrowLeft") break;
             lastMove = event.target.getAttribute("class");
-            dx = 50;
+            dx = boxSize;
             dy = 0;
             break;
     }
