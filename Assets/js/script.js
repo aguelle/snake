@@ -178,6 +178,7 @@ function displayScore() {
 
 function displayTime() {
     document.getElementById('end-time').textContent = counter;
+    document.getElementById('end-game-time').textContent = counter;
 }
 
 function borderMirror() {
