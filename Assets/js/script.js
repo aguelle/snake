@@ -143,21 +143,6 @@ function timer(){
   }, 100)
 }
 
-// function growSecondes() {
-// 			secondes++;
-// 			document.getElementById("secondes").innerHTML = secondes;
-// 		}
-// 		setInterval("growSecondes()", 1000);
-
-
-//     function growMinutes(){
-// minutes++;
-// document.getElementById("minutes").innerHTML = minutes;
-//     }
-//     setInterval("growMinutes()",59000) 
-
-
-
 // we need a score to be the best
 let score = 0;
 function displayScore() {
