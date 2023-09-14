@@ -84,6 +84,14 @@ h1 {
     text-align: center;
 }
 
+#game-score2 {
+    text-align: center;
+}
+.input {
+    display: flex;
+    justify-content: center;
+ }
+
 .start {
     text-decoration: none;
     color: white;

@@ -129,6 +129,7 @@ function clearApple() {
 // we need a score to be the best
 let score = 0;
 document.getElementById('game-score').textContent = score;
+document.getElementById('game-score2').textContent = score;
 
 // moving this ####### snake with keyboard
 function moveSnakeWithKeyboard(event) {
@@ -246,6 +247,39 @@ function btnReplay() {
     let hiddenBtn = document.getElementById("window-message");
     hiddenBtn.style.display = "block";
 }
+
+function saveScore() {
+    //le score
+    console.log(score)
+    //le nom
+    let textNom = document.getElementById("name").value;
+    console.log(textNom)
+
+    //recuperer la valeur vide la premiere fois
+    let scoreList = localStorage.getItem("scoreListKey");
+
+
+    //si elle est vide
+    if (scoreList == undefined) {
+        //on la crée en map
+        scoreList = {}
+    } else {
+        //sinon on transforme le JSON en map
+        scoreList = JSON.parse(scoreList)
+    }
+
+    //ici c'est forcement une map
+    console.log("oldScores : ", scoreList)
+
+    //je sauvegarde dans ma map le score a la cle textNom
+    scoreList[textNom] = score
+
+    //je resauvegarde la map dans le localStorage en format json
+    localStorage.setItem("scoreListKey", JSON.stringify(scoreList));
+
+
+}
+
 
 function runGame() {
     drawGrid(10);

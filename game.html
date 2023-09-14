@@ -33,12 +33,18 @@
 
     <div id="window-message" class="text-btn-replay">
         <p class="p-1">T'es mort ? Sérieux ? C'te honte !</p>
+        <p class="p-2">Entre ton pseudo pour sauvegarder ton score</p>
+        <p id="game-score2" class="game-score"></p>
+        <div class="input">
+            <input type="text" id="name" name="name" required="" minlength="4" maxlength="8" size="10">
+            <button onclick="saveScore()">save score</button>
+        </div>
         <p class="p-2">Press le bouton REPLAY pour rejouer</p>
         <button id="replay" class="btn-replay">
             <a class="back" href="game.html">Replay</a>
         </button>
     </div>
-    
+
     <script src="Assets/js/script.js"></script>
 </body>
 
