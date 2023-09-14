@@ -137,6 +137,7 @@ function clearApple() {
 function deadSnake() {
     for (let i = 1; i < snake.length; i++) {
         if (snake[0].y === snake[i].y && snake[0].x === snake[i].x) {
+          changingDirection = false;
             displayGameOver();
             // btnReplay();
         }
