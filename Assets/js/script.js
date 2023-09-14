@@ -113,8 +113,9 @@ let positionAppleLeft = 0;
 let positionAppleTop = 0;
 
 function drawApple() {
-    let maybe = getRandom(1, 10);
-    maybe === 10 ? apple = document.getElementById('kitty') : apple = document.getElementById('apple');
+    // if we want a cat later
+    // let maybe = getRandom(1, 10);
+    // maybe === 10 ? apple = document.getElementById('kitty') : apple = document.getElementById('apple');
     positionAppleLeft = getRandom(0, 9) * 50;
     positionAppleTop = getRandom(0, 9) * 50;
     snake.forEach(function (snakePart) {
@@ -239,8 +240,6 @@ function runGame() {
     drawSnake(snakeHeadUp, snakeTailUp);
     drawApple();
     displayScore();
-    // if you want snake to move each second, decomment main function
-    main();
     timer();
     loopTheGame();
 }
