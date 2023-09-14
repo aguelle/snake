@@ -9,6 +9,12 @@ let ctx = document.getElementById("canvas").getContext("2d");
 let canvasHeight = document.getElementById("canvas").getAttribute("height");
 let canvasWidth = document.getElementById("canvas").getAttribute("width");
 
+// we call the value of gridSize saved in the local storage
+let gridSize = localStorage.getItem("gridSize");
+
+// we calculate the each box's size depending on gridSize
+let boxSize = canvasWidth / gridSize;
+
 // function to draw the grid in canvas, with length in parameter
 function drawGrid(gridLength) {
     let positionX = 0;

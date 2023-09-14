@@ -14,6 +14,24 @@
     <button class="btn btn-start">
         <a id="start" class="start" href="game.html">START</a>
     </button>
+        
+    <label for="size-select">Grid size:</label>
+    <select id="size-select">
+        <option value="5">5x5</option>
+        <option value="6">6x6</option>
+        <option value="7">7x7</option>
+        <option value="8">8x8</option>
+        <option value="9">9x9</option>
+        <option value="10">10x10</option>
+    </select>
+
+    <script>
+        // to get the grid size chosen by the player and save it in the local storage
+        function getSize() {
+            let sizeSelectValue = document.getElementById("size-select").value;
+            return localStorage.setItem("gridSize", sizeSelectValue);
+        }
+    </script>
 </body>
 
 </html>
