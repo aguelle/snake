@@ -11,21 +11,23 @@ let canvasWidth = document.getElementById("canvas").getAttribute("width");
 
 // we call the value of gridSize saved in the local storage
 let gridSize = localStorage.getItem("gridSize");
+console.log(gridSize);
 
 // we calculate the each box's size depending on gridSize
 let boxSize = canvasWidth / gridSize;
+console.log(boxSize);
 
 // function to draw the grid in canvas, with length in parameter
-function drawGrid(gridLength) {
+function drawGrid() {
     let positionX = 0;
     let positionY = 0;
-    for (let y = 0; y < gridLength; y++) {
-        for (let x = 0; x < gridLength; x++) {
-            ctx.strokeRect(positionX, positionY, 50, 50);
-            positionX += 50;
+    for (let y = 0; y < gridSize; y++) {
+        for (let x = 0; x < gridSize; x++) {
+            ctx.strokeRect(positionX, positionY, boxSize, boxSize);
+            positionX += boxSize;
         }
         positionX = 0;
-        positionY += 50;
+        positionY += boxSize;
     }
 }
 
@@ -80,22 +82,22 @@ function drawSnake(snakeHead, snakeTail) {
 }
 
 function drawSnakeHead(snakeHead) {
-    ctx.drawImage(snakeHead, snake[0].x, snake[0].y, 50, 50);
+    ctx.drawImage(snakeHead, snake[0].x, snake[0].y, boxSize, boxSize);
 }
 
 let snakeTailIndex = snake.length - 1;
 
 function drawSnakeTail(snakeTail) {
-    ctx.drawImage(snakeTail, snake[snakeTailIndex].x, snake[snakeTailIndex].y, 50, 50);
+    ctx.drawImage(snakeTail, snake[snakeTailIndex].x, snake[snakeTailIndex].y, boxSize, boxSize);
 }
 
 function drawSnakeBody(snakeBody) {
     if (snakeBody === snake[0] || snakeBody === snake[snakeTailIndex]) return;
     if (lastMove === "ArrowUp" || lastMove === "arrow arrowUp" || lastMove === "ArrowDown" || lastMove === "arrow arrowDown") {
-        ctx.drawImage(snakeBodyY, snakeBody.x, snakeBody.y, 50, 50);
+        ctx.drawImage(snakeBodyY, snakeBody.x, snakeBody.y, boxSize, boxSize);
     }
     if (lastMove === "ArrowLeft" || lastMove === "arrow arrowLeft" || lastMove === "ArrowRight" || lastMove === "arrow arrowRight") {
-        ctx.drawImage(snakeBodyX, snakeBody.x, snakeBody.y, 50, 50);
+        ctx.drawImage(snakeBodyX, snakeBody.x, snakeBody.y, boxSize, boxSize);
     }
 }
 
@@ -105,7 +107,7 @@ function clearSnake() {
 }
 
 function clearSnakePart(snakePart) {
-    ctx.clearRect(snakePart.x, snakePart.y, 50, 50);
+    ctx.clearRect(snakePart.x, snakePart.y, boxSize, boxSize);
 }
 
 // some randomize makes game more exciting
@@ -125,18 +127,18 @@ function drawApple() {
     // if we want a cat later
     // let maybe = getRandom(1, 10);
     // maybe === 10 ? apple = document.getElementById('kitty') : apple = document.getElementById('apple');
-    positionAppleLeft = getRandom(0, 9) * 50;
-    positionAppleTop = getRandom(0, 9) * 50;
+    positionAppleLeft = getRandom(0, gridSize - 1) * boxSize;
+    positionAppleTop = getRandom(0, gridSize - 1) * boxSize;
     snake.forEach(function (snakePart) {
         if (snakePart.x === positionAppleLeft && snakePart.y === positionAppleTop) {
             drawApple();
         }
     });
-    ctx.drawImage(apple, positionAppleLeft, positionAppleTop, 50, 50);
+    ctx.drawImage(apple, positionAppleLeft, positionAppleTop, boxSize, boxSize);
 }
 
 function clearApple() {
-    ctx.clearRect(positionAppleLeft, positionAppleTop, 50, 50);
+    ctx.clearRect(positionAppleLeft, positionAppleTop, boxSize, boxSize);
 }
 
 // US11 - Snake die if it touch himself.
