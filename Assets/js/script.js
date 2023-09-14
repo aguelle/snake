@@ -1,8 +1,7 @@
 // here we listen everything everywhere everytime
-window.addEventListener('keydown', moveSnakeWithKeyboard);
-window.addEventListener('click', moveSnakeWithMouse);
+document.addEventListener("keydown", moveSnakeWithKeyboard);
+window.addEventListener("click", moveSnakeWithMouse);
 
-// every good game needs a battlefield. here he is
 // target canvas element in html and make a 2d context in it, that's how canvas works
 let ctx = document.getElementById("canvas").getContext("2d");
 
@@ -24,20 +23,23 @@ function drawGrid(gridLength) {
     }
 }
 
-// in this game, there is a snake
-// and we have to know where this good boy is
+// each snake segment's positions
 let snake = [
     { x: 200, y: 250 },
     { x: 200, y: 300 },
-    { x: 200, y: 350 }
+    { x: 200, y: 350 },
 ];
 
-let lastMove = 'ArrowUp';
+// to not be able to go back
+let lastMove = "ArrowUp";
 
 let dx = 0;
 let dy = 0;
 
+let changingDirection = false;
+
 function moveSnake() {
+  if (changingDirection === false) return;
     const head = { x: snake[0].x + dx, y: snake[0].y + dy };
     snake.unshift(head);
     const eatApple = snake[0].y === positionAppleTop && snake[0].x === positionAppleLeft
@@ -45,42 +47,50 @@ function moveSnake() {
         clearApple();
         drawApple(apple);
         score += 50;
-        console.log(score);
+        gameSpeed = gameSpeed * (1 - 10/100);
+        snakeTailIndex += 1;
     } else {
         snake.pop();
     }
-}
-
-// function keepSnakePosition() {
-//     const head = { x: snake[0].x + dx, y: snake[0].y + dy };
-//     snake.unshift(head);
-//     const hasEatenApple = snake[0].y === positionAppleTop && snake[0].x === positionAppleLeft;
-//     if (hasEatenApple)
-//     snake.pop();
-// }
+  }
 
 // target and choose which snake, a little hack to have a good snake's boy who move his head
 let snakeHeadUp = document.getElementById("snake-head-up");
 let snakeHeadDown = document.getElementById("snake-head-down");
 let snakeHeadLeft = document.getElementById("snake-head-left");
 let snakeHeadRight = document.getElementById("snake-head-right");
-// let snakeRight = document.getElementById("snakeRight");
-// let snakeDown = document.getElementById("snakeDown");
-// let snakeLeft = document.getElementById("snakeLeft");
+let snakeBodyX = document.getElementById('snake-body-x');
+let snakeBodyY = document.getElementById('snake-body-y');
+let snakeTailUp = document.getElementById('snake-tail-up');
+let snakeTailDown = document.getElementById('snake-tail-down');
+let snakeTailLeft = document.getElementById('snake-tail-left');
+let snakeTailRight = document.getElementById('snake-tail-right');
 
 // to see it, we have to draw it (interesting, hu)
+function drawSnake(snakeHead, snakeTail) {
+    snake.forEach(drawSnakeBody);
+    drawSnakeHead(snakeHead);
+    drawSnakeTail(snakeTail);
+}
+
 function drawSnakeHead(snakeHead) {
     ctx.drawImage(snakeHead, snake[0].x, snake[0].y, 50, 50);
 }
 
-function drawSnake(snakeHead) {
-    snake.forEach(drawSnakeBody);
-    drawSnakeHead(snakeHead);
+let snakeTailIndex = snake.length - 1;
+
+function drawSnakeTail(snakeTail) {
+    ctx.drawImage(snakeTail, snake[snakeTailIndex].x, snake[snakeTailIndex].y, 50, 50);
 }
 
-function drawSnakePart(snakePart) {
-    ctx.drawImage(snakeHeadUp
-        , snakePart.x, snakePart.y, 50, 50);
+function drawSnakeBody(snakeBody) {
+    if (snakeBody === snake[0] || snakeBody === snake[snakeTailIndex]) return;
+    if (lastMove === "ArrowUp" || lastMove === "arrow arrowUp" || lastMove === "ArrowDown" || lastMove === "arrow arrowDown") {
+        ctx.drawImage(snakeBodyY, snakeBody.x, snakeBody.y, 50, 50);
+    }
+    if (lastMove === "ArrowLeft" || lastMove === "arrow arrowLeft" || lastMove === "ArrowRight" || lastMove === "arrow arrowRight") {
+        ctx.drawImage(snakeBodyX, snakeBody.x, snakeBody.y, 50, 50);
+    }
 }
 
 // but sometimes we need to clear this fellow englis-- uh snake, sorry
@@ -102,189 +112,198 @@ function getRandom(min, max) {
 // in this game, there is also an apple (not the computer, please keep focus)
 let apple = document.getElementById("apple");
 
-// to draw this apple
 let positionAppleLeft = 0;
 let positionAppleTop = 0;
 
-function drawApple(apple) {
+function drawApple() {
+    // if we want a cat later
+    // let maybe = getRandom(1, 10);
+    // maybe === 10 ? apple = document.getElementById('kitty') : apple = document.getElementById('apple');
     positionAppleLeft = getRandom(0, 9) * 50;
     positionAppleTop = getRandom(0, 9) * 50;
+    snake.forEach(function (snakePart) {
+        if (snakePart.x === positionAppleLeft && snakePart.y === positionAppleTop) {
+            drawApple();
+        }
+    });
     ctx.drawImage(apple, positionAppleLeft, positionAppleTop, 50, 50);
 }
-
-// our snake loves to eat apple
-// function eatApple() {
-//     if (snake[0].y === positionAppleTop && snake[0].x === positionAppleLeft) {
-//         clearApple();
-//         drawApple(apple);
-//         score += 50;
-//         console.log(score);
-//     }
-// }
 
 function clearApple() {
     ctx.clearRect(positionAppleLeft, positionAppleTop, 50, 50);
 }
 
+// US11 - Snake die if it touch himself.
+function deadSnake() {
+    for (let i = 1; i < snake.length; i++) {
+        if (snake[0].y === snake[i].y && snake[0].x === snake[i].x) {
+            changingDirection = false;
+            clearSnake();
+            drawGrid(10);
+            displayGameOver();
+            endTimer();
+            saveScoreInformation();
+        }
+    }
+}
+
+// US17 -function timer to know duration of a game
+
+let millisecondes = 0;
+let secondes = 0;
+let minutes = 0;
+let counter;
+
+function timer(){
+  counter = setInterval(function(){
+    if (changingDirection === false) return;
+      time.textContent = minutes + ' : ' + secondes + ' : ' + millisecondes;
+      millisecondes += 1;
+      if(millisecondes >= 10){millisecondes = 0; secondes += 1;}
+      if(secondes >= 60){secondes = 0; minutes += 1;}
+  }, 100)
+}
+
+function endTimer() {
+    clearInterval(counter);
+    gameOverTime = document.getElementById('time').textContent;
+}
+
 // we need a score to be the best
 let score = 0;
-document.getElementById('game-score').textContent = score;
-document.getElementById('game-score2').textContent = score;
+function displayScore() {
+    document.getElementById("game-score").textContent = score;
+    document.getElementById('end-game-score').textContent = score;
+}
 
-// moving this ####### snake with keyboard
+function displayTime() {
+    document.getElementById('end-time').textContent = counter;
+    document.getElementById('end-game-time').textContent = counter;
+}
+
+function borderMirror() {
+    if (snake[0].y === 500) snake[0].y = 0;
+    if (snake[0].y === -50) snake[0].y = 450;
+    if (snake[0].x === -50) snake[0].x = 450;
+    if (snake[0].x === 500) snake[0].x = 0;
+}
+
+// moving this snake with keyboard
 function moveSnakeWithKeyboard(event) {
+  changingDirection = true;
     switch (event.key) {
-        case 'ArrowDown':
-            if (lastMove === 'ArrowUp') break;
-            clearSnake();
-            drawGrid(10);
+        case "ArrowDown":
+            if (lastMove === "ArrowUp" || lastMove === "arrow arrowUp") break;
+            lastMove = event.key;
             dy = +50;
             dx = 0;
-            // keepSnakePosition();
-            moveSnake();
-            if (snake[0].y === 500) snake[0].y = 0;
-            // eatApple();
-            drawSnake(snakeHeadDown);
-            lastMove = event.key;
             break;
-        case 'ArrowUp':
-            if (lastMove === 'ArrowDown') break;
-            clearSnake();
-            drawGrid(10);
+        case "ArrowUp":
+            if (lastMove === "ArrowDown" || lastMove === "arrow arrowDown") break;
+            lastMove = event.key;
             dy = -50;
             dx = 0;
-            // keepSnakePosition();
-            moveSnake();
-            if (snake[0].y === -50) snake[0].y = 450;
-            // eatApple();
-            drawSnake(snakeHeadUp);
-            lastMove = event.key;
             break;
-        case 'ArrowLeft':
-            if (lastMove === 'ArrowRight') break;
-            clearSnake();
-            drawGrid(10);
+        case "ArrowLeft":
+            if (lastMove === "ArrowRight" || lastMove === "arrow arrowRight") break;
+            lastMove = event.key;
             dx = -50;
             dy = 0;
-            // keepSnakePosition();
-            moveSnake();
-            if (snake[0].x === -50) snake[0].x = 450;
-            // eatApple();
-            drawSnake(snakeHeadLeft);
-            lastMove = event.key;
             break;
-        case 'ArrowRight':
-            if (lastMove === 'ArrowLeft') break;
-            clearSnake();
-            drawGrid(10);
+        case "ArrowRight":
+            if (lastMove === "ArrowLeft" || lastMove === "arrow arrowLeft") break;
+            lastMove = event.key;
             dx = 50;
             dy = 0;
-            // keepSnakePosition();
-            moveSnake();
-            if (snake[0].x === 500) snake[0].x = 0;
-            // eatApple();
-            drawSnake(snakeHeadRight);
-            lastMove = event.key;
             break;
     }
 }
 
-// moving it with mouse or fingers
-function moveSnakeWithMouse(event) {
-    switch (event.target.getAttribute('class')) {
-        case 'arrow arrowDown':
-            if (lastMove === 'arrow arrowUp') break;
-            clearSnake();
-            drawGrid(10);
-            dy = +50;
-            dx = 0;
-            keepSnakePosition();
-            if (snake[0].y === 500) snake[0].y = 0;
-            eatApple();
-            drawSnake();
-            lastMove = event.target.getAttribute('class');
-            break;
-        case "arrow arrowUp":
-            if (lastMove === 'arrow arrowDown') break;
-            clearSnake();
-            drawGrid(10)
-            dy = -50;
-            dx = 0;
-            keepSnakePosition();
-            if (snake[0].y === -50) snake[0].y = 450;
-            eatApple();
-            drawSnake();
-            lastMove = event.target.getAttribute('class');
-            break;
-        case "arrow arrowLeft":
-            if (lastMove === 'arrow arrowRight') break;
-            clearSnake();
-            drawGrid(10)
-            dx = -50;
-            dy = 0;
-            keepSnakePosition();
-            if (snake[0].x === -50) snake[0].x = 450;
-            eatApple();
-            drawSnake();
-            lastMove = event.target.getAttribute('class');
-            break;
-        case "arrow arrowRight":
-            if (lastMove === 'arrow arrowLeft') break;
-            clearSnake();
-            drawGrid(10)
-            dx = 50;
-            dy = 0;
-            keepSnakePosition();
-            if (snake[0].x === 500) snake[0].x = 0;
-            eatApple();
-            drawSnake();
-            lastMove = event.target.getAttribute('class');
-            break;
-    }
+// to set snake's speed
+let gameSpeed = 1000;
+
+function loopTheGame() {
+    setTimeout(function timer() {
+        clearSnake();
+        drawGrid(10);
+        moveSnake();
+        borderMirror();
+        if (lastMove === "ArrowUp" || lastMove === "arrow arrowUp") {
+            drawSnake(snakeHeadUp, snakeTailUp);
+        }
+        if (lastMove === "ArrowDown" || lastMove === "arrow arrowDown") {
+            drawSnake(snakeHeadDown, snakeTailDown);
+        }
+        if (lastMove === "ArrowLeft" || lastMove === "arrow arrowLeft") {
+            drawSnake(snakeHeadLeft, snakeTailLeft);
+        }
+        if (lastMove === "ArrowRight" || lastMove === "arrow arrowRight") {
+            drawSnake(snakeHeadRight, snakeTailRight);
+        }
+        displayScore();
+        loopTheGame();
+        deadSnake();
+    }, gameSpeed);
 }
 
-function btnReplay() {
+function runGame() {
+    drawGrid(10);
+    drawSnake(snakeHeadUp, snakeTailUp);
+    drawApple();
+    displayScore();
+    timer();
+    loopTheGame();
+}
+
+window.onload = runGame;
+
+function displayGameOver() {
     let hiddenBtn = document.getElementById("window-message");
     hiddenBtn.style.display = "block";
 }
 
-function saveScore() {
-    //le score
-    console.log(score)
-    //le nom
-    let textNom = document.getElementById("name").value;
-    console.log(textNom)
+// moving it with mouse or fingers
+function moveSnakeWithMouse(event) {
+    changingDirection = true;
 
-    //recuperer la valeur vide la premiere fois
-    let scoreList = localStorage.getItem("scoreListKey");
-
-
-    //si elle est vide
-    if (scoreList == undefined) {
-        //on la crée en map
-        scoreList = {}
-    } else {
-        //sinon on transforme le JSON en map
-        scoreList = JSON.parse(scoreList)
+    switch (event.target.getAttribute("class")){
+        case "arrow arrowDown":
+            if ( lastMove == "ArrowUp" || lastMove === "arrow arrowUp") break;
+            lastMove = event.target.getAttribute("class");
+            dy = +50;
+            dx = 0;
+            break;
+        case "arrow arrowUp":
+            if (lastMove == "ArrowDown" || lastMove === "arrow arrowDown") break;
+            lastMove = event.target.getAttribute("class");
+            dy = -50;
+            dx = 0;
+            break;
+        case "arrow arrowLeft":
+            if (lastMove == "ArrowRight" || lastMove === "arrow arrowRight") break;
+            lastMove = event.target.getAttribute("class");
+            dx = -50;
+            dy = 0;
+            break;
+        case "arrow arrowRight":
+            if (lastMove == "ArrowLeft" || lastMove === "arrow arrowLeft") break;
+            lastMove = event.target.getAttribute("class");
+            dx = 50;
+            dy = 0;
+            break;
     }
-
-    //ici c'est forcement une map
-    console.log("oldScores : ", scoreList)
-
-    //je sauvegarde dans ma map le score a la cle textNom
-    scoreList[textNom] = score
-
-    //je resauvegarde la map dans le localStorage en format json
-    localStorage.setItem("scoreListKey", JSON.stringify(scoreList));
-
-
 }
 
+let storeGameInformations = {};
+let gameOverTime;
 
-function runGame() {
-    drawGrid(10);
-    drawSnake(snakeHeadUp);
-    drawApple(apple);
+function saveScoreInformation() {
+    let gamerName = document.getElementById('gamer-name').value;
+    storeGameInformations["name"] = gamerName;
+    storeGameInformations["score"] = score;
+    storeGameInformations["time"] = gameOverTime;
+    console.log(storeGameInformations);
+    let scoreJson = JSON.stringify(storeGameInformations);
+    localStorage.setItem('party', scoreJson);
+
 }
-
-window.onload = runGame;

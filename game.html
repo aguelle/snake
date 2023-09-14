@@ -10,8 +10,11 @@
 
 <body>
     <canvas id="canvas" height="500" width="500"></canvas>
-    <h2 class="game-score-title">SCORE</h2>
-    <p id="game-score" class="game-score"></p>
+    <div class="score">
+        <h2 class="game-score-title">SCORE</h2>
+        <p id="game-score"></p>
+        <p id="time" class="time"></p>
+    </div>
     <div class="command">
         <img src="Assets/img/arrowUp.png" alt="arrow" class="arrow arrowUp">
         <div class="command-center">
@@ -22,26 +25,38 @@
         <img src="Assets/img/arrowDown.png" alt="arrow" class="arrow arrowDown">
     </div>
     <img src="Assets/img/apple.png" alt="apple" id="apple" class="apple">
+    <img src="Assets/img/kitty.png" alt="kitty" id="kitty" class="kitty">
     <img src="Assets/img/snake/snake_head_up.png" id="snake-head-up" class="snake" alt="snake">
     <img src="Assets/img/snake/snake_head_right.png" id="snake-head-right" class="snake" alt="snake">
     <img src="Assets/img/snake/snake_head_down.png" id="snake-head-down" class="snake" alt="snake">
     <img src="Assets/img/snake/snake_head_left.png" id="snake-head-left" class="snake" alt="snake">
+    <img src="Assets/img/snake/snake_body_x.png" id="snake-body-x" class="snake" alt="snake">
+    <img src="Assets/img/snake/snake_body_y.png" id="snake-body-y" class="snake" alt="snake">
+    <img src="Assets/img/snake/snake_tail_up.png" id="snake-tail-up" class="snake" alt="snake">
+    <img src="Assets/img/snake/snake_tail_right.png" id="snake-tail-right" class="snake" alt="snake">
+    <img src="Assets/img/snake/snake_tail_down.png" id="snake-tail-down" class="snake" alt="snake">
+    <img src="Assets/img/snake/snake_tail_left.png" id="snake-tail-left" class="snake" alt="snake">
 
     <button class="btn btn-back">
         <a id="back" class="back" href="index.html">Back</a>
     </button>
-
     <div id="window-message" class="text-btn-replay">
-        <p class="p-1">T'es mort ? Sérieux ? C'te honte !</p>
-        <p class="p-2">Entre ton pseudo pour sauvegarder ton score</p>
-        <p id="game-score2" class="game-score"></p>
-        <div class="input">
-            <input type="text" id="name" name="name" required="" minlength="4" maxlength="8" size="10">
-            <button onclick="saveScore()">save score</button>
+        <p class="p-1">What a pity, you aren't skilled enough... Try to do better next time !</p>
+        <div class="end-score score">
+            <div>
+            <h2 class="game-score-title">SCORE</h2>
+            <p id="end-game-score"></p>
         </div>
-        <p class="p-2">Press le bouton REPLAY pour rejouer</p>
-        <button id="replay" class="btn-replay">
-            <a class="back" href="game.html">Replay</a>
+        <div>
+            <h2 class="game-time-title">TIME</h2>
+            <p id="end-game-time"></p>
+        </div>
+        <div></div>
+            <input id="gamer-name" type="text" placeholder="Your name isssSSSsss" class="playerName">
+            <button type="button" onclick="saveScoreInformation();">Send</button>
+        </div>
+        <button id="replay" class="btn-replay btn">
+            <a class="back" href="game.html">ResssSSSssstart</a>
         </button>
     </div>
 
