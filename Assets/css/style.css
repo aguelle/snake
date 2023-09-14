@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'modak';
-    src: url('/Assets/fonts/Modak-Regular.ttf');
+    src: url('../fonts/Modak-Regular.ttf');
 }
 .kitty,
 .snake,
@@ -11,7 +11,7 @@
 body {
     width: 100%;
     font-family: 'modak';
-    background-image: url('/Assets/img/background.jpg');
+    background-image: url('../img/background.jpg');
     background-repeat: no-repeat;
     background-size: auto;
 }
