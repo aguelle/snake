@@ -1,6 +1,6 @@
 // here we listen everything everywhere everytime
 window.addEventListener("keydown", moveSnakeWithKeyboard);
-window.addEventListener("click", moveSnakeWithMouse);
+// window.addEventListener("click", moveSnakeWithMouse);
 
 // target canvas element in html and make a 2d context in it, that's how canvas works
 let ctx = document.getElementById("canvas").getContext("2d");
@@ -44,7 +44,8 @@ function moveSnake() {
         clearApple();
         drawApple(apple);
         score += 50;
-        console.log(score);
+        gameSpeed = gameSpeed * (1 - 10/100);
+        snakeTailIndex += 1;
     } else {
         snake.pop();
     }
@@ -55,21 +56,38 @@ let snakeHeadUp = document.getElementById("snake-head-up");
 let snakeHeadDown = document.getElementById("snake-head-down");
 let snakeHeadLeft = document.getElementById("snake-head-left");
 let snakeHeadRight = document.getElementById("snake-head-right");
+let snakeBodyX = document.getElementById('snake-body-x');
+let snakeBodyY = document.getElementById('snake-body-y');
+let snakeTailUp = document.getElementById('snake-tail-up');
+let snakeTailDown = document.getElementById('snake-tail-down');
+let snakeTailLeft = document.getElementById('snake-tail-left');
+let snakeTailRight = document.getElementById('snake-tail-right');
 
 // to see it, we have to draw it (interesting, hu)
-function drawSnake(snakeHead) {
+function drawSnake(snakeHead, snakeTail) {
     snake.forEach(drawSnakeBody);
     drawSnakeHead(snakeHead);
+    drawSnakeTail(snakeTail);
 }
 
 function drawSnakeHead(snakeHead) {
     ctx.drawImage(snakeHead, snake[0].x, snake[0].y, 50, 50);
 }
 
+let snakeTailIndex = snake.length - 1;
+
+function drawSnakeTail(snakeTail) {
+    ctx.drawImage(snakeTail, snake[snakeTailIndex].x, snake[snakeTailIndex].y, 50, 50);
+}
+
 function drawSnakeBody(snakeBody) {
-    if (snakeBody === snake[0]) return;
-    ctx.fillStyle = "lightgreen";
-    ctx.fillRect(snakeBody.x, snakeBody.y, 50, 50);
+    if (snakeBody === snake[0] || snakeBody === snake[snakeTailIndex]) return;
+    if (lastMove === "ArrowUp" || lastMove === "arrow arrowUp" || lastMove === "ArrowDown" || lastMove === "arrow arrowDown") {
+        ctx.drawImage(snakeBodyY, snakeBody.x, snakeBody.y, 50, 50);
+    }
+    if (lastMove === "ArrowLeft" || lastMove === "arrow arrowLeft" || lastMove === "ArrowRight" || lastMove === "arrow arrowRight") {
+        ctx.drawImage(snakeBodyX, snakeBody.x, snakeBody.y, 50, 50);
+    }
 }
 
 // but sometimes we need to clear this fellow englis-- uh snake, sorry
@@ -91,11 +109,12 @@ function getRandom(min, max) {
 // in this game, there is also an apple (not the computer, please keep focus)
 let apple = document.getElementById("apple");
 
-// to draw this apple
 let positionAppleLeft = 0;
 let positionAppleTop = 0;
 
 function drawApple() {
+    let maybe = getRandom(1, 10);
+    maybe === 10 ? apple = document.getElementById('kitty') : apple = document.getElementById('apple');
     positionAppleLeft = getRandom(0, 9) * 50;
     positionAppleTop = getRandom(0, 9) * 50;
     snake.forEach(function (snakePart) {
@@ -129,6 +148,7 @@ function displayGameOver() {
 }
 
 // US17 -function timer to know duration of a game
+
 let millisecondes = 0;
 let secondes = 0;
 let minutes = 0;
@@ -150,164 +170,114 @@ function displayScore() {
     // document.getElementById("end-game-score").textContent = score;
 }
 
+function borderMirror() {
+    if (snake[0].y === 500) snake[0].y = 0;
+    if (snake[0].y === -50) snake[0].y = 450;
+    if (snake[0].x === -50) snake[0].x = 450;
+    if (snake[0].x === 500) snake[0].x = 0;
+}
+
 // moving this snake with keyboard
 function moveSnakeWithKeyboard(event) {
     switch (event.key) {
         case "ArrowDown":
-            if (lastMove === "ArrowUp") break;
-            clearSnake();
-            drawGrid(10);
+            if (lastMove === "ArrowUp" || lastMove === "arrow arrowUp") break;
+            lastMove = event.key;
             dy = +50;
             dx = 0;
-            moveSnake();
-            displayScore();
-            if (snake[0].y === 500) snake[0].y = 0;
-            drawSnake(snakeHeadDown);
-            deadSnake();
-            lastMove = event.key;
             break;
         case "ArrowUp":
-            if (lastMove === "ArrowDown") break;
-            clearSnake();
-            drawGrid(10);
+            if (lastMove === "ArrowDown" || lastMove === "arrow arrowDown") break;
+            lastMove = event.key;
             dy = -50;
             dx = 0;
-            moveSnake();
-            displayScore();
-            if (snake[0].y === -50) snake[0].y = 450;
-            drawSnake(snakeHeadUp);
-            deadSnake();
-            lastMove = event.key;
             break;
         case "ArrowLeft":
-            if (lastMove === "ArrowRight") break;
-            clearSnake();
-            drawGrid(10);
+            if (lastMove === "ArrowRight" || lastMove === "arrow arrowRight") break;
+            lastMove = event.key;
             dx = -50;
             dy = 0;
-            moveSnake();
-            displayScore();
-            if (snake[0].x === -50) snake[0].x = 450;
-            drawSnake(snakeHeadLeft);
-            deadSnake();
-            lastMove = event.key;
             break;
         case "ArrowRight":
-            if (lastMove === "ArrowLeft") break;
-            clearSnake();
-            drawGrid(10);
+            if (lastMove === "ArrowLeft" || lastMove === "arrow arrowLeft") break;
+            lastMove = event.key;
             dx = 50;
             dy = 0;
-            moveSnake();
-            displayScore();
-            if (snake[0].x === 500) snake[0].x = 0;
-            drawSnake(snakeHeadRight);
-            deadSnake();
-            lastMove = event.key;
             break;
     }
 }
 
-// moving it with mouse or fingers
-function moveSnakeWithMouse(event) {
-    switch (event.target.getAttribute("class")) {
-        case "arrow arrowDown":
-            if (lastMove === "arrow arrowUp" || lastMove === 'ArrowUp') break;
-            clearSnake();
-            drawGrid(10);
-            dy = +50;
-            dx = 0;
-            moveSnake();
-            displayScore();
-            if (snake[0].y === 500) snake[0].y = 0;
-            drawSnake(snakeHeadDown);
-            deadSnake();
-            lastMove = event.key;
-            break;
-        case "arrow arrowUp":
-            if (lastMove === "ArrowDown") break;
-            clearSnake();
-            drawGrid(10);
-            dy = -50;
-            dx = 0;
-            moveSnake();
-            displayScore();
-            if (snake[0].y === -50) snake[0].y = 450;
-            drawSnake(snakeHeadUp);
-            deadSnake();
-            lastMove = event.key;
-            break;
-        case "arrow arrowLeft":
-            if (lastMove === "ArrowRight") break;
-            clearSnake();
-            drawGrid(10);
-            dx = -50;
-            dy = 0;
-            moveSnake();
-            displayScore();
-            if (snake[0].x === -50) snake[0].x = 450;
-            drawSnake(snakeHeadLeft);
-            deadSnake();
-            lastMove = event.key;
-            break;
-        case "arrow arrowRight":
-            if (lastMove === "ArrowLeft") break;
-            clearSnake();
-            drawGrid(10);
-            dx = 50;
-            dy = 0;
-            moveSnake();
-            displayScore();
-            if (snake[0].x === 500) snake[0].x = 0;
-            drawSnake(snakeHeadRight);
-            deadSnake();
-            lastMove = event.key;
-            break;
-    }
+// to set snake's speed
+let gameSpeed = 1000;
+
+function loopTheGame() {
+    setTimeout(function timer() {
+        clearSnake();
+        drawGrid(10);
+        moveSnake();
+        borderMirror();
+        if (lastMove === "ArrowUp" || lastMove === "arrow arrowUp") {
+            drawSnake(snakeHeadUp, snakeTailUp);
+        }
+        if (lastMove === "ArrowDown" || lastMove === "arrow arrowDown") {
+            drawSnake(snakeHeadDown, snakeTailDown);
+        }
+        if (lastMove === "ArrowLeft" || lastMove === "arrow arrowLeft") {
+            drawSnake(snakeHeadLeft, snakeTailLeft);
+        }
+        if (lastMove === "ArrowRight" || lastMove === "arrow arrowRight") {
+            drawSnake(snakeHeadRight, snakeTailRight);
+        }
+        displayScore();
+        loopTheGame();
+        deadSnake();
+    }, gameSpeed);
 }
 
-function main() {
-    setTimeout(function onTick() {
-      clearSnake();
-      drawGrid(10);
-      moveSnake();
-      if (lastMove === "ArrowUp") {
-        drawSnake(snakeHeadUp);
-      }
-      if (lastMove === "ArrowDown") {
-        drawSnake(snakeHeadDown);
-      }
-      if (lastMove === "ArrowLeft") {
-        drawSnake(snakeHeadLeft);
-      }
-      if (lastMove === "ArrowRight") {
-        drawSnake(snakeHeadRight);
-      }
-      main();
-    }, 1000)
-  }
+function runGame() {
+    drawGrid(10);
+    drawSnake(snakeHeadUp, snakeTailUp);
+    drawApple();
+    displayScore();
+    // if you want snake to move each second, decomment main function
+    main();
+    timer();
+    loopTheGame();
+}
+
+window.onload = runGame;
 
 function btnReplay() {
     let hiddenBtn = document.getElementById("window-message");
     hiddenBtn.style.display = "block";
 }
 
-function runGame() {
-    drawGrid(10);
-    drawSnake(snakeHeadUp);
-    drawApple();
-    displayScore();
-    // if you want snake to move each second, decomment main function
-    main();
-    timer();
-}
-
-window.onload = runGame;
-
-// US17 -function timer to know duration of a game
-// let timer = 0;
-// function grow() {
-//     timer++;
-//     document.getElementById("timer").innerHTML = timer;
+// moving it with mouse or fingers
+// function moveSnakeWithMouse(event) {
+//     switch (event.target.getAttribute("class")) {
+//         case "arrow arrowDown":
+//             if (lastMove === "ArrowUp" || lastMove === "arrow arrowUp") break;
+//             lastMove = event.key;
+//             dy = +50;
+//             dx = 0;
+//             break;
+//         case "arrow arrowUp":
+//             if (lastMove === "ArrowDown" || lastMove === "arrow arrowDown") break;
+//             lastMove = event.key;
+//             dy = -50;
+//             dx = 0;
+//             break;
+//         case "arrow arrowLeft":
+//             if (lastMove === "ArrowRight" || lastMove === "arrow arrowRight") break;
+//             lastMove = event.key;
+//             dx = -50;
+//             dy = 0;
+//             break;
+//         case "arrow arrowRight":
+//             if (lastMove === "ArrowLeft" || lastMove === "arrow arrowLeft") break;
+//             lastMove = event.key;
+//             dx = 50;
+//             dy = 0;
+//             break;
+//     }
 // }
-// setInterval(grow(), 1000);
