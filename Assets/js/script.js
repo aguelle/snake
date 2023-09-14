@@ -142,7 +142,7 @@ function deadSnake() {
             drawGrid(10);
             displayGameOver();
             endTimer();
-            saveScoreInformation();
+            getName();
         }
     }
 }
@@ -166,6 +166,7 @@ function timer(){
 
 function endTimer() {
     clearInterval(counter);
+    clearTimeout(gameLoop);
     gameOverTime = document.getElementById('time').textContent;
 }
 
@@ -223,7 +224,7 @@ function moveSnakeWithKeyboard(event) {
 let gameSpeed = 1000;
 
 function loopTheGame() {
-    setTimeout(function timer() {
+    gameLoop = setTimeout(function timer() {
         clearSnake();
         drawGrid(10);
         moveSnake();
@@ -245,6 +246,8 @@ function loopTheGame() {
         deadSnake();
     }, gameSpeed);
 }
+
+let party = localStorage.getItem('partyNumber');
 
 function runGame() {
     drawGrid(10);
@@ -294,16 +297,23 @@ function moveSnakeWithMouse(event) {
     }
 }
 
-let storeGameInformations = {};
+let scores = JSON.parse(localStorage.getItem('snakeScores')) || [];
 let gameOverTime;
+let gamerName;
+
+function getName() {
+    gamerName = document.getElementById('gamer-name').value;
+    if (gamerName.trim() !== "") saveScoreInformation();
+}
 
 function saveScoreInformation() {
-    let gamerName = document.getElementById('gamer-name').value;
-    storeGameInformations["name"] = gamerName;
-    storeGameInformations["score"] = score;
-    storeGameInformations["time"] = gameOverTime;
-    console.log(storeGameInformations);
-    let scoreJson = JSON.stringify(storeGameInformations);
-    localStorage.setItem('party', scoreJson);
-
+    let party = {};
+    party["name"] = gamerName;
+    party["score"] = score;
+    party["time"] = gameOverTime;
+    scores.push(party);
+    scores.sort((a, b) => b.score - a.score);
+    const maxScoresToKeep = 10;
+    scores = scores.slice(0, maxScoresToKeep);
+    localStorage.setItem('snakeScores', JSON.stringify(scores));
 }
