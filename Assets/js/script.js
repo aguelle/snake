@@ -138,7 +138,11 @@ function deadSnake() {
     for (let i = 1; i < snake.length; i++) {
         if (snake[0].y === snake[i].y && snake[0].x === snake[i].x) {
             changingDirection = false;
+            clearSnake();
+            drawGrid(10);
             displayGameOver();
+            endTimer();
+            saveScoreInformation();
         }
     }
 }
@@ -158,6 +162,11 @@ function timer(){
       if(millisecondes >= 10){millisecondes = 0; secondes += 1;}
       if(secondes >= 60){secondes = 0; minutes += 1;}
   }, 100)
+}
+
+function endTimer() {
+    clearInterval(counter);
+    gameOverTime = document.getElementById('time').textContent;
 }
 
 // we need a score to be the best
@@ -259,13 +268,13 @@ function moveSnakeWithMouse(event) {
 
     switch (event.target.getAttribute("class")){
         case "arrow arrowDown":
-            if (lastMove == "ArrowUp" ||  lastMove == "arrow arrowUp") break;
+            if ( lastMove == "ArrowUp" || lastMove === "arrow arrowUp") break;
             lastMove = event.target.getAttribute("class");
             dy = +50;
             dx = 0;
             break;
         case "arrow arrowUp":
-            if (lastMove == "ArrowDown" || lastMove == "arrow arrowDown") break;
+            if (lastMove == "ArrowDown" || lastMove === "arrow arrowDown") break;
             lastMove = event.target.getAttribute("class");
             dy = -50;
             dx = 0;
@@ -283,4 +292,18 @@ function moveSnakeWithMouse(event) {
             dy = 0;
             break;
     }
+}
+
+let storeGameInformations = {};
+let gameOverTime;
+
+function saveScoreInformation() {
+    let gamerName = document.getElementById('gamer-name').value;
+    storeGameInformations["name"] = gamerName;
+    storeGameInformations["score"] = score;
+    storeGameInformations["time"] = gameOverTime;
+    console.log(storeGameInformations);
+    let scoreJson = JSON.stringify(storeGameInformations);
+    localStorage.setItem('party', scoreJson);
+
 }
