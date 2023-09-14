@@ -137,19 +137,10 @@ function clearApple() {
 function deadSnake() {
     for (let i = 1; i < snake.length; i++) {
         if (snake[0].y === snake[i].y && snake[0].x === snake[i].x) {
-          changingDirection = false;
+            changingDirection = false;
             displayGameOver();
-            // btnReplay();
         }
     }
-}
-
-// US14 - Function Game Over end display score
-let endgame;
-let endgameFeatures = "left=100;top=100;width=320;height=320";
-
-function displayGameOver() {
-    endgame = window.open("endgame.html", endgameFeatures);
 }
 
 // US17 -function timer to know duration of a game
@@ -173,7 +164,11 @@ function timer(){
 let score = 0;
 function displayScore() {
     document.getElementById("game-score").textContent = score;
-    // document.getElementById("end-game-score").textContent = score;
+    document.getElementById('end-game-score').textContent = score;
+}
+
+function displayTime() {
+    document.getElementById('end-time').textContent = counter;
 }
 
 function borderMirror() {
@@ -252,7 +247,7 @@ function runGame() {
 
 window.onload = runGame;
 
-function btnReplay() {
+function displayGameOver() {
     let hiddenBtn = document.getElementById("window-message");
     hiddenBtn.style.display = "block";
 }
