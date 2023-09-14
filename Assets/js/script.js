@@ -169,6 +169,7 @@ function displayScore() {
 
 function displayTime() {
     document.getElementById('end-time').textContent = counter;
+    document.getElementById('end-game-time').textContent = counter;
 }
 
 function borderMirror() {
@@ -258,13 +259,13 @@ function moveSnakeWithMouse(event) {
 
     switch (event.target.getAttribute("class")){
         case "arrow arrowDown":
-            if ( lastMove == "arrow arrowUp") break;
+            if (lastMove == "ArrowUp" ||  lastMove == "arrow arrowUp") break;
             lastMove = event.target.getAttribute("class");
             dy = +50;
             dx = 0;
             break;
         case "arrow arrowUp":
-            if (lastMove == "arrow arrowDown") break;
+            if (lastMove == "ArrowDown" || lastMove == "arrow arrowDown") break;
             lastMove = event.target.getAttribute("class");
             dy = -50;
             dx = 0;
