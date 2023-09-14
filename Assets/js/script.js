@@ -1,6 +1,6 @@
 // here we listen everything everywhere everytime
 document.addEventListener("keydown", moveSnakeWithKeyboard);
-// window.addEventListener("click", moveSnakeWithMouse);
+window.addEventListener("click", moveSnakeWithMouse);
 
 // target canvas element in html and make a 2d context in it, that's how canvas works
 let ctx = document.getElementById("canvas").getContext("2d");
@@ -258,31 +258,33 @@ function btnReplay() {
 }
 
 // moving it with mouse or fingers
-// function moveSnakeWithMouse(event) {
-//     switch (event.target.getAttribute("class")) {
-//         case "arrow arrowDown":
-//             if (lastMove === "ArrowUp" || lastMove === "arrow arrowUp") break;
-//             lastMove = event.key;
-//             dy = +50;
-//             dx = 0;
-//             break;
-//         case "arrow arrowUp":
-//             if (lastMove === "ArrowDown" || lastMove === "arrow arrowDown") break;
-//             lastMove = event.key;
-//             dy = -50;
-//             dx = 0;
-//             break;
-//         case "arrow arrowLeft":
-//             if (lastMove === "ArrowRight" || lastMove === "arrow arrowRight") break;
-//             lastMove = event.key;
-//             dx = -50;
-//             dy = 0;
-//             break;
-//         case "arrow arrowRight":
-//             if (lastMove === "ArrowLeft" || lastMove === "arrow arrowLeft") break;
-//             lastMove = event.key;
-//             dx = 50;
-//             dy = 0;
-//             break;
-//     }
-// }
+function moveSnakeWithMouse(event) {
+    changingDirection = true;
+
+    switch (event.target.getAttribute("class")){
+        case "arrow arrowDown":
+            if ( lastMove == "arrow arrowUp") break;
+            lastMove = event.target.getAttribute("class");
+            dy = +50;
+            dx = 0;
+            break;
+        case "arrow arrowUp":
+            if (lastMove == "arrow arrowDown") break;
+            lastMove = event.target.getAttribute("class");
+            dy = -50;
+            dx = 0;
+            break;
+        case "arrow arrowLeft":
+            if (lastMove == "ArrowRight" || lastMove === "arrow arrowRight") break;
+            lastMove = event.target.getAttribute("class");
+            dx = -50;
+            dy = 0;
+            break;
+        case "arrow arrowRight":
+            if (lastMove == "ArrowLeft" || lastMove === "arrow arrowLeft") break;
+            lastMove = event.target.getAttribute("class");
+            dx = 50;
+            dy = 0;
+            break;
+    }
+}
