@@ -109,7 +109,12 @@ h1 {
     display: flex;
     justify-content: center;
 }
-
+.command {
+    width: 40%;
+    position: absolute;
+    margin-top: -5%;
+    margin-left: 60%;
+}
 .arrowUp {
     margin-top: -30px;
 }
@@ -169,21 +174,21 @@ height: auto;
     }
 
     #canvas {
-        width: 50%;
+        width: 30%;
         margin: 70px;
     }
 
     .command {
-        width: 40%;
+        width: 20%;
         position: absolute;
-        margin-top: -60%;
-        margin-left: 60%;
+        margin-top: -30%;
+        margin-left: 35%;
     }
 
     .btn-back {
         position: absolute;
-        margin-top: -20%;
-        margin-left: 80%;
+        margin-top: -15%;
+        margin-left: 40%;
     }
 
     .score {
