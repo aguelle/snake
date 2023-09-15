@@ -125,8 +125,8 @@ let positionAppleTop = 0;
 
 function drawApple() {
     // if we want a cat later
-    // let maybe = getRandom(1, 10);
-    // maybe === 10 ? apple = document.getElementById('kitty') : apple = document.getElementById('apple');
+    let maybe = getRandom(1, 10);
+    maybe === 10 ? apple = document.getElementById('kitty') : apple = document.getElementById('apple');
     positionAppleLeft = getRandom(0, gridSize - 1) * boxSize;
     positionAppleTop = getRandom(0, gridSize - 1) * boxSize;
     snake.forEach(function (snakePart) {
