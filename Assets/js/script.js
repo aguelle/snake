@@ -185,8 +185,8 @@ function displayScore() {
 }
 
 function displayTime() {
-    document.getElementById('end-time').textContent = counter;
-    document.getElementById('end-game-time').textContent = counter;
+    // document.getElementById('end-time').textContent = counter;
+    document.getElementById('end-game-time').textContent = gameOverTime;
 }
 
 function borderMirror() {
@@ -249,6 +249,7 @@ function loopTheGame() {
             drawSnake(snakeHeadRight, snakeTailRight);
         }
         displayScore();
+        displayTime();
         loopTheGame();
         deadSnake();
     }, gameSpeed);
@@ -310,7 +311,7 @@ function saveScoreInformation() {
     storeGameInformations["name"] = gamerName;
     storeGameInformations["score"] = score;
     storeGameInformations["time"] = gameOverTime;
-    console.log(storeGameInformations);
+    // console.log(storeGameInformations);
     let scoreJson = JSON.stringify(storeGameInformations);
     localStorage.setItem('party', scoreJson);
 
